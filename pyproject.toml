@@ -1,0 +1,82 @@
+[tool.isort]
+# config compatible with Black
+line_length = 88
+multi_line_output = 3
+default_section = "THIRDPARTY"
+honor_noqa = true
+include_trailing_comma = true
+known_third_party = ["allure", "behave", "dotenv", "hvac", "requests", "selenium"]
+atomic = true
+
+[tool.black]
+line-length = 88
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
+
+[tool.pylint.master]
+# jobs=0 means 'use all CPUs'
+jobs = 0
+
+[tool.pylint.message_control]
+max-line-length = 20
+disable = [
+    "abstract-method",
+    "bad-continuation",
+    "bare-except",
+    "broad-except",
+    "duplicate-code",
+    "fixme",
+    "invalid-name",
+    "line-too-long",
+    "locally-disabled",
+    "logging-fstring-interpolation",
+    "missing-docstring",
+    "no-member",
+    "no-name-in-module",
+    "no-self-use",
+    "no-value-for-parameter",
+    "protected-access",
+    "raise-missing-from",
+    "redefined-outer-name",
+    "relative-import",
+    "too-few-public-methods",
+    "ungrouped-imports",
+    "unused-argument",
+    "wrong-import-position",
+]
+
+[tool.pylint.reports]
+output-format = "colorized"
+
+[tool.pylint.format]
+logging-modules = [
+    "logging",
+]
+
+[tool.pytest.ini_options]
+bdd_features_base_dir = ["features/"]
+
+
+[[tool.mypy.overrides]]
+module = [
+    "allure",
+    "behave",
+    "behave.runner",
+    "hvac",
+    "requests"
+]
+ignore_missing_imports = true
