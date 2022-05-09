@@ -53,7 +53,7 @@ def get_browser() -> Browser:
     browser_list = {
              "chrome": browser.chromium.launch(headless=False) if conf_obj.LOCAL else browser.chromium.launch(),
              "firefox": browser.firefox.launch(headless=False) if conf_obj.LOCAL else browser.firefox.launch(),
-             "safari": Exception("Invalid browser") if conf_obj.LOCAL else browser.webkit.launch(),
+             "safari": browser.chromium.launch(headless=False) if conf_obj.LOCAL else browser.webkit.launch(),
              # "edge": browser.chromium.launch(headless=False, channel="msedge") if conf_obj.LOCAL
              # else browser.chromium.launch(channel="msedge")
     }

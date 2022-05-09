@@ -14,17 +14,18 @@ def browser() -> Browser:
 @fixture(scope="session")
 def context(browser) -> Browser:
     context = browser.new_context(record_video_dir="records")
-    # context.tracing.start(screenshots=True, snapshots=True, sources=True)    yield context
-    # context.tracing.stop(path="reports/trace.zip")
-    # context.storage_state(path="reports/storage.txt")
+    context.tracing.start(screenshots=True, snapshots=True, sources=True)
+    print("tracing started")
+    yield context
+    context.tracing.stop(path="reports/trace.zip")
+    context.storage_state(path="reports/storage.txt")
     context.close()
 
 
 @fixture(scope="session")
 def page(context) -> Page:
-    # page: Page = browser.new_page()
-    # Record video
     page: Page = context.new_page()
+    # Record video
     # page: Page = context.new_page(record_video_dir="records")
     return page
 
