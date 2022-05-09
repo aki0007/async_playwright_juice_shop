@@ -51,7 +51,7 @@ Thumbs.db
 
 # Project files
 demo.py
-requirements.txt
+requirements.in
 records
 reports
 venv
