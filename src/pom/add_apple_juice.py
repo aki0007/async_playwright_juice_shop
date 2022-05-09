@@ -1,14 +1,16 @@
 import allure
-
 from playwright.sync_api import Page
 
 
 class AddAppleJuicePage:
-    __CLOSE_DIALOG = "[aria-label=\"Close\\ Dialog\"]"
-    __OPEN_APPLE_JUICE_ITEM = "text=Apple Juice (1000ml) 1.99¤Add to Basket >> [aria-label=\"Click\\ for\\ more\\ information\\ about\\ the\\ product\"]"
+    __CLOSE_DIALOG = '[aria-label="Close\\ Dialog"]'
+    __OPEN_APPLE_JUICE_ITEM = (
+        'text=Apple Juice (1000ml) 1.99¤Add to Basket >> [aria-label="Click\\ for\\ more\\ '
+        'information\\ about\\ the\\ product"]'
+    )
     __OPEN_REVIEWS = "//span[text()='Reviews']"
-    __REVIEW_PRODUCT = "[aria-label=\"Text\\ field\\ to\\ review\\ a\\ product\"]"
-    __SEND_REVIEW = "[aria-label=\"Send\\ the\\ review\"]"
+    __REVIEW_PRODUCT = '[aria-label="Text\\ field\\ to\\ review\\ a\\ product"]'
+    __SEND_REVIEW = '[aria-label="Send\\ the\\ review"]'
     __WRITE_A_REVIEW = "text=Write a review"
 
     def __init__(self, page) -> None:

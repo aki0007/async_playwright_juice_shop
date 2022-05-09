@@ -1,4 +1,4 @@
-.PHONY: allure-serve,compose-build,compose-test,compose-test-allure
+.PHONY: allure-serve,compose-build,compose-test,compose-test-allure,redundant-files-permissions
 .DEFAULT_GOAL := help
 
 define PRINT_HELP_PYSCRIPT
@@ -32,3 +32,6 @@ compose-test: ## test
 compose-test-allure: ## test
 	@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v tests/juice_shop.py --alluredir=$(ALLURE_DIR) $(args)
 	@make allure-serve
+
+redundant-files-permissions: ## change allure permissions
+	@docker-compose run $(COMPOSE_SVC_NAME) chmod -R 777 ./reports ./.pytest_cache ./records

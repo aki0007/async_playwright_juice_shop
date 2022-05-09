@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Union
 
 from dotenv import load_dotenv
-from playwright.sync_api import sync_playwright, Browser, Playwright
+from playwright.sync_api import Browser, Playwright, sync_playwright
 
 load_dotenv()
 
@@ -51,11 +51,17 @@ def get_browser() -> Browser:
     env_browser: str = os.getenv("BROWSER", "chrome")
 
     browser_list = {
-             "chrome": browser.chromium.launch(headless=False) if conf_obj.LOCAL else browser.chromium.launch(),
-             "firefox": browser.firefox.launch(headless=False) if conf_obj.LOCAL else browser.firefox.launch(),
-             "safari": browser.chromium.launch(headless=False) if conf_obj.LOCAL else browser.webkit.launch(),
-             # "edge": browser.chromium.launch(headless=False, channel="msedge") if conf_obj.LOCAL
-             # else browser.chromium.launch(channel="msedge")
+        "chrome": browser.chromium.launch(headless=False)
+        if conf_obj.LOCAL
+        else browser.chromium.launch(),
+        "firefox": browser.firefox.launch(headless=False)
+        if conf_obj.LOCAL
+        else browser.firefox.launch(),
+        "safari": browser.chromium.launch(headless=False)
+        if conf_obj.LOCAL
+        else browser.webkit.launch(),
+        # "edge": browser.chromium.launch(headless=False, channel="msedge") if conf_obj.LOCAL
+        # else browser.chromium.launch(channel="msedge")
     }
     if env_browser not in browser_list:
         raise Exception("Invalid browser")

@@ -1,12 +1,13 @@
 import allure
-
 from playwright.sync_api import Page
 
 
 class AddApplePomicePage:
-    __ADD_APPLE_POMICE_TO_BASKET: str = "text=Apple Pomace 0.89¤Add to Basket >> [aria-label=\"Add\\ to\\ Basket\"]"
+    __ADD_APPLE_POMICE_TO_BASKET: str = (
+        'text=Apple Pomace 0.89¤Add to Basket >> [aria-label="Add\\ to\\ Basket"]'
+    )
     __ME_WANT_IT: str = "text=Me want it!"
-    __SHOW_SHOPPING_CART: str = "[aria-label=\"Show\\ the\\ shopping\\ cart\"]"
+    __SHOW_SHOPPING_CART: str = '[aria-label="Show\\ the\\ shopping\\ cart"]'
     _VALIDATE_APPLE_POMICE: str = "text=Apple Pomace"
 
     def __init__(self, page) -> None:

@@ -1,8 +1,8 @@
 from playwright.sync_api import Browser, Page
+from playwright.sync_api._generated import BrowserContext
 from pytest import fixture
-from config import get_browser
 
-from config import conf_obj
+from config import conf_obj, get_browser
 from src.pom.login import LoginPage
 
 
@@ -12,13 +12,13 @@ def browser() -> Browser:
 
 
 @fixture(scope="session")
-def context(browser) -> Browser:
+def context(browser) -> BrowserContext:
     context = browser.new_context(record_video_dir="records")
-    context.tracing.start(screenshots=True, snapshots=True, sources=True)
+    # context.tracing.start(screenshots=True, snapshots=True, sources=True)
     print("tracing started")
     yield context
-    context.tracing.stop(path="reports/trace.zip")
-    context.storage_state(path="reports/storage.txt")
+    # context.tracing.stop(path="reports/trace.zip")
+    # context.storage_state(path="reports/storage.txt")
     context.close()
 
 

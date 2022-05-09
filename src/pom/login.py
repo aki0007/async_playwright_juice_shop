@@ -1,18 +1,20 @@
 import allure
-
 from playwright.sync_api import Page
+
 from config import conf_obj
 
 
 class LoginPage:
-    __EMAIL_INPUT: str = "[aria-label=\"Text\\ field\\ for\\ the\\ login\\ email\"]"
-    __HAS_TEXT_EMAIL: str = "#login-form div:has-text(\"Email *\")"
-    __HAS_TEXT_PASSWORD: str = "[aria-label=\"Text\\ field\\ for\\ the\\ login\\ password\"]"
-    __LOGIN_BUTTON: str = "[aria-label=\"Login\"]"
-    __LOGIN_MENU_ITEM: str = "button[role=\"menuitem\"]:has-text(\"exit_to_app Login\")"
-    __PASSWORD_INPUT: str = "[aria-label=\"Text\\ field\\ for\\ the\\ login\\ password\"]"
-    __SHOW_ACCOUNT_MENU: str = "[aria-label=\"Show\\/hide\\ account\\ menu\"]"
-    __WELCOME_BANNER: str = "[aria-label=\"Close\\ Welcome\\ Banner\"]"
+    __EMAIL_INPUT: str = '[aria-label="Text\\ field\\ for\\ the\\ login\\ email"]'
+    __HAS_TEXT_EMAIL: str = '#login-form div:has-text("Email *")'
+    __HAS_TEXT_PASSWORD: str = (
+        '[aria-label="Text\\ field\\ for\\ the\\ login\\ password"]'
+    )
+    __LOGIN_BUTTON: str = '[aria-label="Login"]'
+    __LOGIN_MENU_ITEM: str = 'button[role="menuitem"]:has-text("exit_to_app Login")'
+    __PASSWORD_INPUT: str = '[aria-label="Text\\ field\\ for\\ the\\ login\\ password"]'
+    __SHOW_ACCOUNT_MENU: str = '[aria-label="Show\\/hide\\ account\\ menu"]'
+    __WELCOME_BANNER: str = '[aria-label="Close\\ Welcome\\ Banner"]'
 
     def __init__(self, page) -> None:
         # It is necessary to initialise driver as page class member to implement Webdriver
