@@ -1,17 +1,18 @@
 from playwright.sync_api import Browser, Page, sync_playwright
 from pytest import fixture
+from config import get_browser
 
 
 @fixture(scope="session")
 def browser() -> Browser:
-    browser = sync_playwright().start()
-    return browser.chromium.launch(headless=False)
+    return get_browser()
 
 
 @fixture(scope="session")
 def context(browser) -> Browser:
     context = browser.new_context(record_video_dir="records")
     context.tracing.start(screenshots=True, snapshots=True, sources=True)
+    print("tracing started")
     yield context
     context.tracing.stop(path="reports/trace.zip")
     context.storage_state(path="reports/storage.txt")
@@ -31,8 +32,6 @@ def page(context) -> Page:
 def successful_login(page: Page) -> None:
     # Go to https://juice-shop.herokuapp.com/login
     page.goto("https://juice-shop.herokuapp.com/login")
-    # Go to https://juice-shop.herokuapp.com/login#/
-    page.goto("https://juice-shop.herokuapp.com/login#/")
     # Click [aria-label="Close\ Welcome\ Banner"]
     page.locator("[aria-label=\"Close\\ Welcome\\ Banner\"]").click()
     # Click [aria-label="Show\/hide\ account\ menu"]

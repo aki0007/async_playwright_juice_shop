@@ -23,13 +23,13 @@ def test_update_company(page, successful_login) -> None:
     page.locator("[aria-label=\"Close\\ Dialog\"]").click()
 
 
-def test_validate_banana_description(page, successful_login):
-    # Click text=Banana Juice (1000ml)
-    page.locator("text=Banana Juice (1000ml)").click()
-    # Click text=Monkeys love it the most.
-    assert page.locator("text=Monkeys love it the most.")
-    # Click [aria-label="Close\ Dialog"]
-    page.locator("[aria-label=\"Close\\ Dialog\"]").click()
+#def test_validate_banana_description(page, successful_login):
+ #   # Click text=Banana Juice (1000ml)
+  #  page.locator("text=Banana Juice (1000ml)").click()
+   # # Click text=Monkeys love it the most.
+   # assert page.locator("text=Monkeys love it the most.")
+   # # Click [aria-label="Close\ Dialog"]
+   # page.locator("[aria-label=\"Close\\ Dialog\"]").click()
 
 
 def test_add_apple_pomace_to_basket(page, successful_login):
