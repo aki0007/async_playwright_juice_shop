@@ -30,5 +30,5 @@ compose-test: ## test
 	@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v tests/juice_shop.py $(args)
 
 compose-test-allure: ## test
-	@docker-compose run $(COMPOSE_SVC_NAME) pytest --alluredir=$(ALLURE_DIR) $(args)
+	@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v tests/juice_shop.py --alluredir=$(ALLURE_DIR) $(args)
 	@make allure-serve

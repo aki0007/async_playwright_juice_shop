@@ -1,6 +1,9 @@
-from playwright.sync_api import Browser, Page, sync_playwright
+from playwright.sync_api import Browser, Page
 from pytest import fixture
 from config import get_browser
+
+from config import conf_obj
+from src.pom.login import LoginPage
 
 
 @fixture(scope="session")
@@ -11,11 +14,9 @@ def browser() -> Browser:
 @fixture(scope="session")
 def context(browser) -> Browser:
     context = browser.new_context(record_video_dir="records")
-    context.tracing.start(screenshots=True, snapshots=True, sources=True)
-    print("tracing started")
-    yield context
-    context.tracing.stop(path="reports/trace.zip")
-    context.storage_state(path="reports/storage.txt")
+    # context.tracing.start(screenshots=True, snapshots=True, sources=True)    yield context
+    # context.tracing.stop(path="reports/trace.zip")
+    # context.storage_state(path="reports/storage.txt")
     context.close()
 
 
@@ -30,22 +31,6 @@ def page(context) -> Page:
 
 @fixture(scope="session")
 def successful_login(page: Page) -> None:
-    # Go to https://juice-shop.herokuapp.com/login
-    page.goto("https://juice-shop.herokuapp.com/login")
-    # Click [aria-label="Close\ Welcome\ Banner"]
-    page.locator("[aria-label=\"Close\\ Welcome\\ Banner\"]").click()
-    # Click [aria-label="Show\/hide\ account\ menu"]
-    page.locator("[aria-label=\"Show\\/hide\\ account\\ menu\"]").click()
-    # Click button[role="menuitem"]:has-text("exit_to_app Login")
-    page.locator("button[role=\"menuitem\"]:has-text(\"exit_to_app Login\")").click()
-    assert page.url == "https://juice-shop.herokuapp.com/login#/login"
-    # Click #login-form div:has-text("Email *") >> nth=2
-    page.locator("#login-form div:has-text(\"Email *\")").nth(2).click()
-    # Fill [aria-label="Text\ field\ for\ the\ login\ email"]
-    page.locator("[aria-label=\"Text\\ field\\ for\\ the\\ login\\ email\"]").fill("jaksa.milanovic007@gmail.com")
-    # Click [aria-label="Text\ field\ for\ the\ login\ password"]
-    page.locator("[aria-label=\"Text\\ field\\ for\\ the\\ login\\ password\"]").click()
-    # Fill [aria-label="Text\ field\ for\ the\ login\ password"]
-    page.locator("[aria-label=\"Text\\ field\\ for\\ the\\ login\\ password\"]").fill("Test123*")
-    # Click [aria-label="Login"]
-    page.locator("[aria-label=\"Login\"]").click()
+    login_page: LoginPage = LoginPage(page)
+    login_page.navigate_to_homepage()
+    login_page.login_to_application(conf_obj.LOGIN_USERNAME, conf_obj.LOGIN_PASSWORD)
