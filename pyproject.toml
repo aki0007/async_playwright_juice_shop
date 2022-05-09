@@ -67,9 +67,6 @@ logging-modules = [
     "logging",
 ]
 
-[tool.pytest.ini_options]
-bdd_features_base_dir = ["features/"]
-
 
 [[tool.mypy.overrides]]
 module = [

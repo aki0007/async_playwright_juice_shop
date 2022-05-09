@@ -1,3 +1,6 @@
+import allure
+
+
 def test_update_company(page, successful_login) -> None:
     # Click text=Apple Juice (1000ml) 1.99¤Add to Basket
     page.locator("text=Apple Juice (1000ml) 1.99¤Add to Basket >> [aria-label=\"Click\\ for\\ more\\ information\\ about\\ the\\ product\"]").click()

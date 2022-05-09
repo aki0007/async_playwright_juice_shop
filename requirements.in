@@ -1,2 +1,4 @@
+allure-pytest
 playwright
 pytest-playwright
+pytest-dotenv

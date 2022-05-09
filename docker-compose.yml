@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  playwright-demo:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      network: host
+    volumes:
+      - .:/app
+    entrypoint: ./entrypoint.sh
+    env_file:
+      - ./.env
+    environment:
+      LOCAL: "0"
+    stop_signal: SIGINT
+    network_mode: host
