@@ -25,7 +25,8 @@ class LoginPage:
         # Go to https://juice-shop.herokuapp.com/login
         self.page.goto(conf_obj.GLOBAL_URL + conf_obj.LOGIN_URL)
         # Click [aria-label="Close\ Welcome\ Banner"]
-        self.page.locator(self.__WELCOME_BANNER).click()
+        if self.page.locator(self.__WELCOME_BANNER).is_visible():
+            self.page.locator(self.__WELCOME_BANNER).click()
 
     @allure.step
     def login_to_application(self, username, password):
@@ -33,7 +34,7 @@ class LoginPage:
         self.page.locator(self.__SHOW_ACCOUNT_MENU).click()
         # Click button[role="menuitem"]:has-text("exit_to_app Login")
         self.page.locator(self.__LOGIN_MENU_ITEM).click()
-        assert self.page.url == "https://juice-shop.herokuapp.com/login#/login"
+        assert self.page.url == conf_obj.GLOBAL_URL + "/login#" + conf_obj.LOGIN_URL
         # Click #login-form div:has-text("Email *") >> nth=2
         self.page.locator(self.__HAS_TEXT_EMAIL).nth(2).click()
         # Fill [aria-label="Text\ field\ for\ the\ login\ email"]
