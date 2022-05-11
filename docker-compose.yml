@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
       network: host
+    container_name: playwright-demo
     volumes:
       - .:/app
     entrypoint: ./entrypoint.sh
