@@ -46,13 +46,13 @@ def get_config() -> Union[Config, ProductionConfig, StagingConfig]:
 
 
 def get_browser() -> dict:
-    env_browser: str = os.getenv("BROWSER", "chrome")
     browser_list = {
-        "chrome": {"driver": "chromium"},
-        "firefox": {"driver": "firefox"},
-        "safari": {"driver": "webkit"},
-        "edge": {"driver": "chromium", "channel": "msedge"},
+        "chrome": {"browser": "chromium"},
+        "firefox": {"browser": "firefox"},
+        "safari": {"browser": "webkit"},
+        "edge": {"browser": "chromium", "channel": "msedge"},
     }
+    env_browser: str = os.getenv("BROWSER", "chrome")
     if env_browser not in browser_list:
         raise Exception("Invalid browser")
 

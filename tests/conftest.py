@@ -12,7 +12,7 @@ from src.pom.login import LoginPage
 def browser() -> Browser:
     browser: Playwright = sync_playwright().start()
     browser_info: dict = get_browser()
-    launcher: BrowserType = getattr(browser, browser_info["driver"])
+    launcher: BrowserType = getattr(browser, browser_info["browser"])
     return launcher.launch(
         headless=not conf_obj.LOCAL, channel=browser_info.get("channel")
     )
