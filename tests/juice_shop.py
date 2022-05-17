@@ -1,10 +1,12 @@
 import allure
 from playwright.sync_api import Page
+from pytest_testrail.plugin import pytestrail
 
 from src.pom.add_apple_juice import AddAppleJuicePage
 from src.pom.add_apple_pomice import AddApplePomicePage
 
 
+@pytestrail.case("56369")
 def test_add_apple_juice(page: Page, successful_login) -> None:
     add_apple_juice: AddAppleJuicePage = AddAppleJuicePage(page)
 
@@ -21,12 +23,14 @@ def test_add_apple_juice(page: Page, successful_login) -> None:
 #     page.locator("[aria-label=\"Close\\ Dialog\"]").click()
 
 
+@pytestrail.case("56370")
 def test_add_apple_pomace(page: Page, successful_login):
     apple_pomice_page: AddApplePomicePage = AddApplePomicePage(page)
     apple_pomice_page.add_apple_pomice_to_basket()
     apple_pomice_page.validate_apple_pomice()
 
 
+@pytestrail.case("56371")
 def test_fail_on_purpose(page: Page, successful_login):
     # Click text=Monkeys love it the most.
     @allure.step
