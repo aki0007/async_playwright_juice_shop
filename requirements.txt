@@ -44,18 +44,23 @@ pytest==7.1.2
     #   pytest-base-url
     #   pytest-dotenv
     #   pytest-playwright
+    #   pytest-testrail
 pytest-base-url==2.0.0
     # via pytest-playwright
 pytest-dotenv==0.5.2
     # via -r requirements.in
 pytest-playwright==0.3.0
     # via -r requirements.in
+pytest-testrail==2.9.0
+    # via -r requirements.in
 python-dotenv==0.20.0
     # via pytest-dotenv
 python-slugify==6.1.2
     # via pytest-playwright
 requests==2.27.1
-    # via pytest-base-url
+    # via
+    #   pytest-base-url
+    #   pytest-testrail
 six==1.16.0
     # via
     #   allure-pytest

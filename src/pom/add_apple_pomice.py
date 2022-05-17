@@ -1,6 +1,8 @@
 import allure
 from playwright.sync_api import Page
 
+from config import conf_obj
+
 
 class AddApplePomicePage:
     __ADD_APPLE_POMICE_TO_BASKET: str = (
@@ -25,6 +27,6 @@ class AddApplePomicePage:
 
     @allure.step
     def validate_apple_pomice(self):
-        assert self.page.url == "https://juice-shop.herokuapp.com/login#/basket"
+        assert self.page.url == conf_obj.GLOBAL_URL + conf_obj.LOGIN_URL + "#/basket"
         # Click text=Apple Pomace
         assert self.page.locator(self._VALIDATE_APPLE_POMICE)

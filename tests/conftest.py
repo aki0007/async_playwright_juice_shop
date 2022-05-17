@@ -1,4 +1,6 @@
-from playwright.sync_api import Browser, Page
+from typing import Generator
+
+from playwright.sync_api import Browser, BrowserType, Page, Playwright, sync_playwright
 from playwright.sync_api._generated import BrowserContext
 from pytest import fixture
 
@@ -8,14 +10,20 @@ from src.pom.login import LoginPage
 
 @fixture(scope="session")
 def browser() -> Browser:
-    return get_browser()
+    browser: Playwright = sync_playwright().start()
+    browser_info: dict = get_browser()
+    launcher: BrowserType = getattr(browser, browser_info["browser"])
+    return launcher.launch(
+        headless=not conf_obj.LOCAL, channel=browser_info.get("channel")
+    )
 
 
 @fixture(scope="session")
-def context(browser) -> BrowserContext:
-    context = browser.new_context(record_video_dir="records")
+def context(browser) -> Generator[BrowserContext, None, None]:
+    context = browser.new_context()
+    # Turn on the recording
+    # context = browser.new_context(record_video_dir="records")
     # context.tracing.start(screenshots=True, snapshots=True, sources=True)
-    print("tracing started")
     yield context
     # context.tracing.stop(path="reports/trace.zip")
     # context.storage_state(path="reports/storage.txt")

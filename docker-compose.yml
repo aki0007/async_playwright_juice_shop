@@ -1,11 +1,20 @@
 version: "3.8"
 
 services:
+  juice-shop:
+    image: bkimminich/juice-shop
+    container_name: juice-shop
+    stop_signal: SIGINT
+    network_mode: host
+    ports:
+      - "3000:3000"
+
   playwright-demo:
     build:
       context: .
       dockerfile: ./Dockerfile
       network: host
+    container_name: playwright-demo
     volumes:
       - .:/app
     entrypoint: ./entrypoint.sh

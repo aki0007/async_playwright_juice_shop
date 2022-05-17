@@ -57,3 +57,4 @@ reports
 venv
 *.ini
 .mypy_cache
+testrail.cfg
