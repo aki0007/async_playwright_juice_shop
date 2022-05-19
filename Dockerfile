@@ -8,7 +8,6 @@ RUN apt update -y && apt-get install -y \
     build-essential \
     vim \
     libicu-dev \
-    build-essential \
     libpcre3 \
     libpcre3-dev \
     python3-pip \
@@ -23,6 +22,8 @@ COPY . /app
 
 RUN pip install pip --upgrade && \
     pip install -r requirements.txt
+
+RUN playwright install
 
 RUN chmod +x ./entrypoint.sh
 

@@ -69,6 +69,7 @@ logging-modules = [
 
 markers = [
     "test1: used while developing tests",
+    "testrail.case: Mark test case for plugin to know how to match tests with TestRail run"
 ]
 python_files = [
     "tests_*.py"
