@@ -18,7 +18,7 @@ RUN echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] http
 RUN apt update -y && apt install -y microsoft-edge-stable
 
 WORKDIR /app
-COPY . /app
+COPY .. /app
 
 RUN pip install pip --upgrade && \
     pip install -r requirements.txt

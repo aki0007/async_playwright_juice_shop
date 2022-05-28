@@ -51,8 +51,8 @@ Thumbs.db
 
 # Project files
 demo.py
-requirements.in
 records
+requirements.in
 reports
 venv
 *.ini
