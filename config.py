@@ -9,17 +9,17 @@ load_dotenv()
 
 class Config:
     # App
-    ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
-    GLOBAL_URL = os.getenv("GLOBAL_URL", "https://")
-    LOGIN_URL = os.getenv("LOGIN_URL", "/testing")
+    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+    GLOBAL_URL: str = os.getenv("GLOBAL_URL", "https://")
+    LOGIN_URL: str = os.getenv("LOGIN_URL", "/testing")
     LOCAL: bool = os.getenv("LOCAL", "0") == "1"
-    SCREENSHOT_PATH = os.path.abspath(
+    SCREENSHOT_PATH: str = os.path.abspath(
         "reports/screenshots/" + datetime.now().strftime("%d-%m-%Y")
     )
 
     # Credentials
-    LOGIN_USERNAME = os.getenv("LOGIN_USERNAME", "user")
-    LOGIN_PASSWORD = os.getenv("LOGIN_PASSWORD", "1234")
+    LOGIN_USERNAME: str = os.getenv("LOGIN_USERNAME", "user")
+    LOGIN_PASSWORD: str = os.getenv("LOGIN_PASSWORD", "1234")
 
 
 class ProductionConfig(Config):
