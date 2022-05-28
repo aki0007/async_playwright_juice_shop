@@ -1,10 +1,11 @@
 from typing import Generator
 
-from playwright.sync_api import Browser, BrowserType, Page, Playwright, sync_playwright
+from playwright.sync_api import Browser, BrowserType, Playwright, sync_playwright
 from playwright.sync_api._generated import BrowserContext
 from pytest import fixture
 
 from config import conf_obj, get_browser
+from src.page import CustomPage
 from src.pom.login import LoginPage
 
 
@@ -31,15 +32,13 @@ def context(browser) -> Generator[BrowserContext, None, None]:
 
 
 @fixture(scope="session")
-def page(context) -> Page:
-    page: Page = context.new_page()
+def page(context) -> CustomPage:
     # Record video
-    # page: Page = context.new_page(record_video_dir="records")
-    return page
+    return CustomPage(context.new_page())
 
 
 @fixture(scope="session")
-def successful_login(page: Page) -> None:
+def successful_login(page: CustomPage) -> None:
     login_page: LoginPage = LoginPage(page)
     login_page.navigate_to_homepage()
     login_page.login_to_application(conf_obj.LOGIN_USERNAME, conf_obj.LOGIN_PASSWORD)

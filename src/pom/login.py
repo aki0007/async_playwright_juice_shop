@@ -1,7 +1,7 @@
 import allure
-from playwright.sync_api import Page
 
 from config import conf_obj
+from src.page import CustomPage
 
 
 class LoginPage:
@@ -18,30 +18,33 @@ class LoginPage:
 
     def __init__(self, page) -> None:
         # It is necessary to initialise driver as page class member to implement Webdriver
-        self.page: Page = page
+        self.page: CustomPage = page
 
     @allure.step
     def navigate_to_homepage(self):
         # Go to https://juice-shop.herokuapp.com/login
-        self.page.goto(conf_obj.GLOBAL_URL + conf_obj.LOGIN_URL)
+        self.page.set_window()
         # Click [aria-label="Close\ Welcome\ Banner"]
-        if self.page.locator(self.__WELCOME_BANNER).is_visible():
-            self.page.locator(self.__WELCOME_BANNER).click()
+        if self.page.get_element(self.__WELCOME_BANNER).is_visible():
+            self.page.get_element(self.__WELCOME_BANNER).click()
 
     @allure.step
     def login_to_application(self, username, password):
         # Click [aria-label="Show\/hide\ account\ menu"]
-        self.page.locator(self.__SHOW_ACCOUNT_MENU).click()
+        self.page.get_element(self.__SHOW_ACCOUNT_MENU).click()
         # Click button[role="menuitem"]:has-text("exit_to_app Login")
-        self.page.locator(self.__LOGIN_MENU_ITEM).click()
-        assert self.page.url == conf_obj.GLOBAL_URL + "/login#" + conf_obj.LOGIN_URL
+        self.page.get_element(self.__LOGIN_MENU_ITEM).click()
+        assert (
+            self.page.original.url
+            == conf_obj.GLOBAL_URL + "/login#" + conf_obj.LOGIN_URL
+        )
         # Click #login-form div:has-text("Email *") >> nth=2
-        self.page.locator(self.__HAS_TEXT_EMAIL).nth(2).click()
+        self.page.get_element(self.__HAS_TEXT_EMAIL).nth(2).click()
         # Fill [aria-label="Text\ field\ for\ the\ login\ email"]
-        self.page.locator(self.__EMAIL_INPUT).fill(username)
+        self.page.get_element(self.__EMAIL_INPUT).fill(username)
         # Click [aria-label="Text\ field\ for\ the\ login\ password"]
-        self.page.locator(self.__HAS_TEXT_PASSWORD).click()
+        self.page.get_element(self.__HAS_TEXT_PASSWORD).click()
         # Fill [aria-label="Text\ field\ for\ the\ login\ password"]
-        self.page.locator(self.__PASSWORD_INPUT).fill(password)
+        self.page.get_element(self.__PASSWORD_INPUT).fill(password)
         # Click [aria-label="Login"]
-        self.page.locator(self.__LOGIN_BUTTON).click()
+        self.page.get_element(self.__LOGIN_BUTTON).click()

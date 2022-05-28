@@ -5,7 +5,7 @@ multi_line_output = 3
 default_section = "THIRDPARTY"
 honor_noqa = true
 include_trailing_comma = true
-known_third_party = ["allure", "dotenv", "playwright", "pytest", "pytest_testrail"]
+known_third_party = ["allure", "allure_commons", "dotenv", "playwright", "pytest", "pytest_testrail", "selenium"]
 atomic = true
 
 [tool.black]

@@ -1,5 +1,6 @@
 import allure
-from playwright.sync_api import Page
+
+from src.page import CustomPage
 
 
 class AddAppleJuicePage:
@@ -15,28 +16,28 @@ class AddAppleJuicePage:
 
     def __init__(self, page) -> None:
         # It is necessary to initialise driver as page class member to implement Webdriver
-        self.page: Page = page
+        self.page: CustomPage = page
 
     @allure.step
     def add_apple_juice_to_basket(self):
         # Click text=Apple Juice (1000ml) 1.99¤Add to Basket
-        self.page.locator(self.__OPEN_APPLE_JUICE_ITEM).click()
+        self.page.get_element(self.__OPEN_APPLE_JUICE_ITEM).click()
         # Click text=Write a review
-        self.page.locator(self.__WRITE_A_REVIEW).click()
+        self.page.get_element(self.__WRITE_A_REVIEW).click()
         # Click [aria-label="Text\ field\ to\ review\ a\ product"]
-        self.page.locator(self.__REVIEW_PRODUCT).click()
+        self.page.get_element(self.__REVIEW_PRODUCT).click()
         # Fill [aria-label="Text\ field\ to\ review\ a\ product"]
-        self.page.locator(self.__REVIEW_PRODUCT).fill("Automated review")
+        self.page.get_element(self.__REVIEW_PRODUCT).fill("Automated review")
         # Click [aria-label="Send\ the\ review"]
-        self.page.locator(self.__SEND_REVIEW).click()
+        self.page.get_element(self.__SEND_REVIEW).click()
         # Click [aria-label="Close\ Dialog"]
-        self.page.locator(self.__CLOSE_DIALOG).click()
+        self.page.get_element(self.__CLOSE_DIALOG).click()
 
     @allure.step
     def validate_apple_juice_in_basket(self):
         # Click text=Apple Juice (1000ml) 1.99¤Add to Basket >>
-        self.page.locator(self.__OPEN_APPLE_JUICE_ITEM).click()
+        self.page.get_element(self.__OPEN_APPLE_JUICE_ITEM).click()
         # Click mat-expansion-panel-header[role="button"]:has-text("Reviews")
-        self.page.locator(self.__OPEN_REVIEWS).click()
+        self.page.get_element(self.__OPEN_REVIEWS).click()
         # Click [aria-label="Close\ Dialog"]
-        self.page.locator(self.__CLOSE_DIALOG).click()
+        self.page.get_element(self.__CLOSE_DIALOG).click()

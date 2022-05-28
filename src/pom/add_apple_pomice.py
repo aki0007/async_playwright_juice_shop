@@ -1,7 +1,7 @@
 import allure
-from playwright.sync_api import Page
 
 from config import conf_obj
+from src.page import CustomPage
 
 
 class AddApplePomicePage:
@@ -14,19 +14,22 @@ class AddApplePomicePage:
 
     def __init__(self, page) -> None:
         # It is necessary to initialise driver as page class member to implement Webdriver
-        self.page: Page = page
+        self.page: CustomPage = page
 
     @allure.step
     def add_apple_pomice_to_basket(self):
         # Click text=Me want it!
-        self.page.locator(self.__ME_WANT_IT).click()
+        self.page.get_element(self.__ME_WANT_IT).click()
         # Click text=Apple Pomace 0.89¤Add to Basket >> [aria-label="Add\ to\ Basket"]
-        self.page.locator(self.__ADD_APPLE_POMICE_TO_BASKET).click()
+        self.page.get_element(self.__ADD_APPLE_POMICE_TO_BASKET).click()
         # Click [aria-label="Show\ the\ shopping\ cart"]
-        self.page.locator(self.__SHOW_SHOPPING_CART).click()
+        self.page.get_element(self.__SHOW_SHOPPING_CART).click()
 
     @allure.step
     def validate_apple_pomice(self):
-        assert self.page.url == conf_obj.GLOBAL_URL + conf_obj.LOGIN_URL + "#/basket"
+        assert (
+            self.page.original.url
+            == conf_obj.GLOBAL_URL + conf_obj.LOGIN_URL + "#/basket"
+        )
         # Click text=Apple Pomace
-        assert self.page.locator(self._VALIDATE_APPLE_POMICE)
+        assert self.page.get_element(self._VALIDATE_APPLE_POMICE)
