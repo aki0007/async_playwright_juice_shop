@@ -11,15 +11,15 @@ services:
 
   playwright-demo:
     build:
-      context: .
-      dockerfile: ./Dockerfile
+      context: ..
+      dockerfile: Dockerfile
       network: host
     container_name: playwright-demo
     volumes:
       - .:/app
     entrypoint: ./entrypoint.sh
     env_file:
-      - ./.env
+      - ../.env
     environment:
       LOCAL: "0"
     stop_signal: SIGINT

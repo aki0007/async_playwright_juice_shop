@@ -1,4 +1,5 @@
 allure-pytest
+lovely-pytest-docker==0.3.0
 playwright
 pytest-playwright
 pytest-dotenv

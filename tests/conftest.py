@@ -1,5 +1,6 @@
 from typing import Generator
 
+from lovely.pytest.docker.compose import Services
 from playwright.sync_api import Browser, BrowserType, Playwright, sync_playwright
 from playwright.sync_api._generated import BrowserContext
 from pytest import fixture
@@ -7,6 +8,13 @@ from pytest import fixture
 from config import conf_obj, get_browser
 from src.page import CustomPage
 from src.pom.login import LoginPage
+
+
+@fixture(scope="session", autouse=True)
+async def docker_juice_shop(docker_services: Services) -> None:
+    test_db_service_name: str = "juice-shop"
+    docker_services.start(test_db_service_name)
+    docker_services.wait_for_service(test_db_service_name, 3000, timeout=60)
 
 
 @fixture(scope="session")
