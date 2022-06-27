@@ -4,10 +4,8 @@ from typing import Any, Optional
 import allure
 from allure_commons.types import AttachmentType
 from playwright.sync_api import Page
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from playwright.sync_api._generated import Locator
-from selenium.common.exceptions import ElementNotInteractableException, TimeoutException
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.ui import Select
 
 from config import conf_obj
 
@@ -32,11 +30,9 @@ class CustomPage:  # type: ignore
                 self.original.locator(locator).highlight()
 
             return self.original.locator(locator)
-        # Not intractable element exception
-        except ElementNotInteractableException:
-            return self.original.locator(locator)
+
         # Timeout exception
-        except TimeoutException:
+        except PlaywrightTimeoutError:
             self.c_assert(False)
             return None
 
@@ -46,14 +42,7 @@ class CustomPage:  # type: ignore
         :param input_text:
         """
         self.get_element(locator).click()
-        action: ActionChains = ActionChains(self)
-        action.send_keys(input_text)
-        action.perform()
-
-    def select_from_dropdown_by_value(self, locator: str, dropdown_menu: str) -> None:
-        # Used for dropdown by value
-        select: Select = Select(self.get_element(locator))
-        select.select_by_value(dropdown_menu)
+        self.original.keyboard.type(input_text)
 
     def check_if_element_exists(self, locator: str, time_to_wait: int = 5) -> bool:
         """
@@ -65,18 +54,9 @@ class CustomPage:  # type: ignore
         """
         try:
             self.get_element(locator).is_visible(timeout=time_to_wait)
-        except TimeoutException:
+        except PlaywrightTimeoutError:
             return False
         return True
-
-    def hover_element(self, locator: str) -> None:
-        """
-        # Hover over the element
-        :param locator:
-        """
-        element: Locator = self.get_element(locator)
-        hov: ActionChains = ActionChains(self).move_to_element(to_element=element)
-        hov.perform()
 
     def wait_for_loader_to_load(self, locator: str, time_to_wait: int = 20) -> None:
         """
@@ -88,7 +68,7 @@ class CustomPage:  # type: ignore
             self.get_element(locator).is_visible(timeout=time_to_wait)
             self.get_element(locator).is_hidden(timeout=time_to_wait)
 
-        except TimeoutException:
+        except PlaywrightTimeoutError:
             # if timeout exception was raised - it may be safe to
             # assume loading has finished, however this may not
             # always be the case, use with caution, otherwise handle

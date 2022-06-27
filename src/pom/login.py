@@ -15,6 +15,7 @@ class LoginPage:
     __PASSWORD_INPUT: str = '[aria-label="Text\\ field\\ for\\ the\\ login\\ password"]'
     __SHOW_ACCOUNT_MENU: str = '[aria-label="Show\\/hide\\ account\\ menu"]'
     __WELCOME_BANNER: str = '[aria-label="Close\\ Welcome\\ Banner"]'
+    __COOKIE_BANNER: str = "text=Me want it!"
 
     def __init__(self, page) -> None:
         # It is necessary to initialise driver as page class member to implement Webdriver
@@ -25,6 +26,9 @@ class LoginPage:
         # Go to https://juice-shop.herokuapp.com/login
         self.page.set_window()
         # Click [aria-label="Close\ Welcome\ Banner"]
+        if self.page.get_element(self.__COOKIE_BANNER).is_visible():
+            self.page.get_element(self.__COOKIE_BANNER).click()
+
         if self.page.get_element(self.__WELCOME_BANNER).is_visible():
             self.page.get_element(self.__WELCOME_BANNER).click()
 

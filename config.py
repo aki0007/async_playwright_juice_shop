@@ -21,6 +21,9 @@ class Config:
     LOGIN_USERNAME: str = os.getenv("LOGIN_USERNAME", "user")
     LOGIN_PASSWORD: str = os.getenv("LOGIN_PASSWORD", "1234")
 
+    # Consts
+    TRACE: bool = False
+
 
 class ProductionConfig(Config):
     ENVIRONMENT: str = "production"
