@@ -38,7 +38,7 @@ def context(browser: Browser) -> Generator[BrowserContext, None, None]:
 
     yield context
     if conf_obj.TRACE:
-        context.tracing.stop(path="reports.zip")
+        context.tracing.stop(path="reports/reports.zip")
         # Turn on storage if necessary
         # trace_context.storage_state(path="reports/storage.txt")
     context.close()
