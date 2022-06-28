@@ -10,7 +10,7 @@ from src.page import CustomPage
 from src.pom.login import LoginPage
 
 
-@fixture(scope="session", autouse=True)
+@fixture(scope="session", autouse=False)
 async def docker_juice_shop(docker_services: Services) -> None:
     test_db_service_name: str = "juice-shop"
     docker_services.start(test_db_service_name)
