@@ -10,6 +10,7 @@ load_dotenv()
 class Config:
     # App
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+    DEVICES: str = os.getenv("DEVICES", "")
     GLOBAL_URL: str = os.getenv("GLOBAL_URL", "https://")
     LOGIN_URL: str = os.getenv("LOGIN_URL", "/testing")
     LOCAL: bool = os.getenv("LOCAL", "0") == "1"

@@ -18,22 +18,32 @@ async def docker_juice_shop(docker_services: Services) -> None:
 
 
 @fixture(scope="session")
-def browser() -> Browser:
-    browser: Playwright = sync_playwright().start()
+def playwright() -> Generator[Playwright, None, None]:
+    with sync_playwright() as playwright:
+        yield playwright
+
+
+@fixture(scope="session")
+def browser(playwright: Playwright) -> Browser:
     browser_info: dict = get_browser()
-    launcher: BrowserType = getattr(browser, browser_info["browser"])
+    launcher: BrowserType = getattr(playwright, browser_info["browser"])
     return launcher.launch(
         headless=not conf_obj.LOCAL, channel=browser_info.get("channel")
     )
 
 
 @fixture(scope="function")
-def context(browser: Browser) -> Generator[BrowserContext, None, None]:
+def context(
+    playwright: Playwright, browser: Browser
+) -> Generator[BrowserContext, None, None]:
     # Return context with/without trace depending on config.TRACE bool
-    if not conf_obj.TRACE:
-        context: BrowserContext = browser.new_context()
-    else:
-        context = browser.new_context(record_video_dir="reports/records")
+    params = {}
+    if conf_obj.DEVICES:
+        params = {**playwright.devices[conf_obj.DEVICES]}
+    if conf_obj.TRACE:
+        params["record_video_dir"] = "reports/records"
+    context: BrowserContext = browser.new_context(**params)
+    if conf_obj.TRACE:
         context.tracing.start(screenshots=True, snapshots=True, sources=True)
 
     yield context
