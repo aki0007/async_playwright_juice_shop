@@ -14,6 +14,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
       network: host
+    user: "1000:1000"
     container_name: playwright-demo
     volumes:
       - .:/app
@@ -21,6 +22,7 @@ services:
     env_file:
       - ./.env
     environment:
-      LOCAL: "0"
+      - LOCAL=0
+
     stop_signal: SIGINT
     network_mode: host

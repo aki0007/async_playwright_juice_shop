@@ -6,10 +6,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+LOCAL: int = int(os.getenv("LOCAL", "1"))
+CURRENT_DATE: str = datetime.now().strftime("%d-%m-%Y-%H-%M")
+
 
 class Config:
     # App
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+    DEVICES: str = os.getenv("DEVICES", "")
     GLOBAL_URL: str = os.getenv("GLOBAL_URL", "https://")
     LOGIN_URL: str = os.getenv("LOGIN_URL", "/testing")
     LOCAL: bool = os.getenv("LOCAL", "0") == "1"
@@ -36,7 +40,6 @@ class StagingConfig(Config):
 def get_config() -> Union[Config, ProductionConfig, StagingConfig]:
     env_list: dict = {
         "development": Config,
-        "docker": Config,
         "production": ProductionConfig,
         "staging": StagingConfig,
     }

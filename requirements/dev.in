@@ -1,0 +1,10 @@
+-r common.in
+
+black
+isort
+mypy
+pylint
+pytoml
+pip-compile-multi
+pre-commit
+pre-commit-update
