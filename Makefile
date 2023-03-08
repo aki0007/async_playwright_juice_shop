@@ -1,4 +1,5 @@
-.PHONY: allure-serve,compose-build,compose-test,compose-test-allure,compose-test-testrail,redundant-files-permissions
+include .env
+.PHONY: allure-serve,compose-build,compose-test,compose-test-allure,compose-test-testrail,testrail-creds
 .DEFAULT_GOAL := help
 
 define PRINT_HELP_PYSCRIPT
@@ -13,9 +14,13 @@ endef
 export PRINT_HELP_PYSCRIPT
 
 
-ALLURE_DIR := reports/allure-results
-COMPOSE_SVC_NAME := playwright-demo
+ALLURE_DIR := report/allure-report
+COMPOSE_SVC_NAME := ttf_unified_platform
 
+# Jenkins file parameters
+pytestOPT ?=
+
+export TR_TESTRUN_NAME := "Automated testrun $(ENVIRONMENT) $(BROWSER) $(LOGIN_USERNAME) $(shell date --iso=seconds)"
 
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
@@ -27,15 +32,16 @@ compose-build: ## build the docker-compose service
 	@docker-compose build
 
 compose-test: ## test
-	@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v tests/juice_shop.py $(args)
+	@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v $(args)
 
 compose-test-allure: ## test
-	@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v tests/juice_shop.py --alluredir=$(ALLURE_DIR) $(args)
+	-@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v --alluredir=$(ALLURE_DIR) $(args)
 	@make allure-serve
-
-redundant-files-permissions: ## change allure permissions
-	@docker-compose run $(COMPOSE_SVC_NAME) chmod -R 777 ./reports ./.pytest_cache ./records
 
 compose-test-testrail: ## test
-	@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v tests/juice_shop.py --testrail --tr-config=testrail.cfg --tr-testrun-name=run_from_make_file $(args)
+	@make testrail-creds
+	-@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v --testrail --tr-config=testrail.cfg --alluredir=$(ALLURE_DIR) --tr-testrun-name=$(TR_TESTRUN_NAME) $(args)
 	@make allure-serve
+
+testrail-creds: ## test
+	@docker-compose run $(COMPOSE_SVC_NAME) python3.11 creds.py

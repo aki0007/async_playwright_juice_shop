@@ -1,64 +1,86 @@
 default_language_version:
-  python: python3.9
-
+    python: python3.11
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
-    hooks:
-      - id: trailing-whitespace
-        exclude: ^.*\.md$
-      - id: end-of-file-fixer
-      - id: debug-statements
-      - id: no-commit-to-branch
-        args: [--branch, master, --branch, main, --branch, production]
-      - id: mixed-line-ending
-        args: [--fix=lf]
-      - id: detect-private-key
-      - id: check-merge-conflict
-      - id: check-toml
-
-  - repo: https://github.com/asottile/seed-isort-config
-    rev: v1.9.2
-    hooks:
-      - id: seed-isort-config
-
-  - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.7.0
-    hooks:
-      - id: isort
-        args: [--settings-path=pyproject.toml]
-        additional_dependencies:
-          - isort[pyproject]
-
-  - repo: https://github.com/ambv/black
-    rev: 22.3.0
-    hooks:
-      - id: black
-        args: [--config=pyproject.toml]
-
-  - repo: https://github.com/pre-commit/mirrors-pylint
-    rev: v2.7.4
-    hooks:
-      - id: pylint
-        args: [--disable=import-error, --disable=duplicate-code, --disable=raise-missing-from]
-        additional_dependencies:
-          - isort[pyproject]
-          - toml
-
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v0.942
-    hooks:
-      - id: mypy
-        args: [--no-strict-optional, --ignore-missing-imports, --namespace-packages]
-        additional_dependencies: [types-redis]
-
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v2.31.0
-    hooks:
-      - id: pyupgrade
-
-  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.2.4
-    hooks:
-      - id: python-safety-dependencies-check
-        files: requirements.txt
+-   hooks:
+    -   exclude: ^.*\.md$
+        id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: debug-statements
+    -   args:
+        - --branch
+        - master
+        - --branch
+        - main
+        - --branch
+        - production
+        id: no-commit-to-branch
+    -   args:
+        - --fix=lf
+        id: mixed-line-ending
+    -   id: detect-private-key
+    -   id: check-merge-conflict
+    -   id: check-toml
+    repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+-   hooks:
+    -   id: pyupgrade
+    repo: https://github.com/asottile/pyupgrade
+    rev: v3.3.1
+-   hooks:
+    -   args:
+        - -r
+        - requirements/common.txt
+        - -r
+        - requirements/tests.txt
+        - --no-deps
+        - --ignore-vuln
+        - GHSA-w596-4wvx-j9j6
+        id: pip-audit
+    repo: https://github.com/pypa/pip-audit
+    rev: v2.4.15
+-   hooks:
+    -   id: pip-compile-multi-verify
+    repo: https://github.com/peterdemin/pip-compile-multi
+    rev: v2.6.2
+-   hooks:
+    -   entry: isort
+        id: isort
+        language: system
+        name: isort
+        require_serial: true
+        types:
+        - python
+    -   entry: black
+        id: black
+        language: system
+        name: black
+        require_serial: true
+        types:
+        - python
+    -   entry: pylint
+        id: pylint
+        language: system
+        name: pylint
+        require_serial: true
+        types:
+        - python
+    -   args:
+        - truveris_api/
+        - tests/
+        - migrations/
+        entry: mypy
+        id: mypy
+        language: system
+        name: mypy
+        pass_filenames: false
+        require_serial: true
+        types:
+        - python
+    -   args:
+        - -a
+        entry: pre-commit-update
+        id: pre-commit-update
+        language: python
+        name: pre-commit-update
+        pass_filenames: false
+    repo: local

@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+LOCAL: int = int(os.getenv("LOCAL", "1"))
+CURRENT_DATE: str = datetime.now().strftime("%d-%m-%Y-%H-%M")
+
 
 class Config:
     # App
@@ -37,7 +40,6 @@ class StagingConfig(Config):
 def get_config() -> Union[Config, ProductionConfig, StagingConfig]:
     env_list: dict = {
         "development": Config,
-        "docker": Config,
         "production": ProductionConfig,
         "staging": StagingConfig,
     }

@@ -67,13 +67,27 @@ logging-modules = [
     "logging",
 ]
 
+
+[tool.pytest.ini_options]
 markers = [
-    "test1: used while developing tests",
-    "testrail.case: Mark test case for plugin to know how to match tests with TestRail run"
+    "registration: Registration test",
 ]
 python_files = [
     "tests_*.py"
 ]
+
+[tool.mypy]
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+namespace_packages = true
+no_strict_optional = false
+warn_return_any = false
+warn_unused_configs = true
+check_untyped_defs = true
+follow_imports = "silent"
+incremental = true
+plugins = ["sqlalchemy.ext.mypy.plugin"]
 
 [[tool.mypy.overrides]]
 module = [
