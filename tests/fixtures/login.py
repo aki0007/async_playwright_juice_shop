@@ -1,4 +1,4 @@
-from pytest import fixture
+from pytest_asyncio import fixture
 from src.pom.login import LoginPage
 from config import conf_obj
 

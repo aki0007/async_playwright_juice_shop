@@ -1,17 +1,13 @@
-# PlayWrightAutomation
+# United Platform Testing
 
-## First of all
+## Precondition
+Install `python3.11`
 
-Project is run on juice-shop.herokuapp app. If you want to run web page set `GLOBAL_URL` to juice-shop.herokuapp.com
-Juice-shop.herokuapp can be run locally. In order to run it locally run `docker-compose up juice-shop`
-It is recommended to do registration first:
+## Virtual environment
+Create virtual environment:
 
-    pytest -s -v tests/registration.py # Run tests
-
-Run tests with PlayWright framework. PlayWright project supports different browsers.
-By changing `.env` file user can set: `chrome`, `firefox`, `safari` or `edge` browser.
-Project supports running files with docker in headless browser with make.
-
+    python3 -m venv venv 
+    source venv/bin/activate
 
 ## Setup
 
@@ -22,36 +18,49 @@ Install `pre-commit`:
     pip install pre-commit
     pre-commit install --install-hooks
 
+## Dependencies
+
+Install dependencies and update them
+
+    pip install -r requirements/dev.txt --no-cache-dir
+    pip-compile-multi
+
+NOTE: If pip-compile-multi fails check if program kicked you out of venv. 
+
+
+Install Playwright:
+
+    playwright install
+
+
 ## Usage
 
-Install dependencies:
+Connect to VPN and run tests with:
 
-    pip-compile -r requirements.in
-    pip install -r requirements.txt
+    pytest -s -v  # Run all behave tests
+    pytest -s -v -m login  # Run login.feature tests
+    pytest -s -v -m rfp  # Run rfp.feature tests
 
-Run tests examples:
+Run tests and generate allure report
 
-    pytest -s -v tests/juice_shop.py # Run tests
+    pytest tests/gui_tests/tests_and_steps/tests_login.py -s -v --alluredir=report/allure-report 
+    allure serve allure/report
 
-Run test and generate allure report:
+### MakeFile
+Run tests with docker using `MakeFile`.
 
-    pytest -s -v tests/juice_shop.py --alluredir=reports/allure-results  
-    allure serve allure/results
+    make compose-test  # Run python tests
+    make compose-test-allure  # Run tests and create allure-repors
+    make composet-test-allure args='--create_rfp' # Set any argument in args=''
 
-Run tests with docker:
+MakeFile run tests in browser in headless mode by setting environment variable `LOCAL=0`
 
-    make compose-test
-    make compose-test-allure
+### Environment
+Project support different environment variables that can be found in `.env.example`
+`BROWSER`: chrome, firefox, safari, edge
+`DEVICES`: mobile
+`ENVIRONMENT`: staging, production, pypi23, development
+
 
 ### Code formatting
-
-Project use [black](https://github.com/ambv/black/) to format the python files.
-
-Install and run `black`, `isort`, `mypy`:
-
-    pip install black
-    black .
-    pip install isort
-    isort .
-    pip install mypy
-    mypy .
+Project follows `pep8` convention. More details can be found in `pyproject.toml`
