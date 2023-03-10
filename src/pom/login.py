@@ -5,17 +5,17 @@ from config import conf_obj
 
 
 class LoginPage:
-    __EMAIL_INPUT: str = '[aria-label="Text\\ field\\ for\\ the\\ login\\ email"]'
-    __HAS_TEXT_EMAIL: str = '#login-form div:has-text("Email *")'
-    __HAS_TEXT_PASSWORD: str = (
+    EMAIL_INPUT: str = '[aria-label="Text\\ field\\ for\\ the\\ login\\ email"]'
+    HAS_TEXT_EMAIL: str = '#login-form div:has-text("Email *")'
+    HAS_TEXT_PASSWORD: str = (
         '[aria-label="Text\\ field\\ for\\ the\\ login\\ password"]'
     )
-    __LOGIN_BUTTON: str = '[aria-label="Login"]'
-    __LOGIN_MENU_ITEM: str = 'button[role="menuitem"]:has-text("exit_to_app Login")'
-    __PASSWORD_INPUT: str = '[aria-label="Text\\ field\\ for\\ the\\ login\\ password"]'
-    __SHOW_ACCOUNT_MENU: str = '[aria-label="Show\\/hide\\ account\\ menu"]'
-    __WELCOME_BANNER: str = '[aria-label="Close\\ Welcome\\ Banner"]'
-    __COOKIE_BANNER: str = "text=Me want it!"
+    LOGIN_BUTTON: str = '[aria-label="Login"]'
+    LOGIN_MENU_ITEM: str = 'button[role="menuitem"]:has-text("exit_to_app Login")'
+    PASSWORD_INPUT: str = '[aria-label="Text\\ field\\ for\\ the\\ login\\ password"]'
+    SHOW_ACCOUNT_MENU: str = '[aria-label="Show\\/hide\\ account\\ menu"]'
+    WELCOME_BANNER: str = '[aria-label="Close\\ Welcome\\ Banner"]'
+    COOKIE_BANNER: str = "text=Me want it!"
 
     def __init__(self, page: Page) -> None:
         self.page: Page = page
@@ -25,40 +25,38 @@ class LoginPage:
         # Go to https://juice-shop.herokuapp.com/login
         await self.page.goto(conf_obj.GLOBAL_URL + conf_obj.LOGIN_URL)
         # Click [aria-label="Close\ Welcome\ Banner"]
-        if self.page.locator(self.__COOKIE_BANNER).is_visible():
-            await self.page.locator(self.__COOKIE_BANNER).click()
+        if self.page.locator(self.COOKIE_BANNER).is_visible():
+            await self.page.locator(self.COOKIE_BANNER).click()
 
-        if self.page.locator(self.__WELCOME_BANNER).is_visible():
-            await self.page.locator(self.__WELCOME_BANNER).click()
+        if self.page.locator(self.WELCOME_BANNER).is_visible():
+            await self.page.locator(self.WELCOME_BANNER).click()
 
     @allure.step
     async def login_to_application(self, username, password) -> None:
         # Click [aria-label="Show\/hide\ account\ menu"]
-        await self.page.locator(self.__SHOW_ACCOUNT_MENU).click()
+        await self.page.locator(self.SHOW_ACCOUNT_MENU).click()
         # Click button[role="menuitem"]:has-text("exit_to_app Login")
-        await self.page.locator(self.__LOGIN_MENU_ITEM).click()
+        await self.page.locator(self.LOGIN_MENU_ITEM).click()
         assert (
             self.page.url
             == conf_obj.GLOBAL_URL + "/login#" + conf_obj.LOGIN_URL
         )
         # Click #login-form div:has-text("Email *") >> nth=2
-        await self.page.locator(self.__HAS_TEXT_EMAIL).nth(2).click()
+        await self.page.locator(self.HAS_TEXT_EMAIL).nth(2).click()
         # Fill [aria-label="Text\ field\ for\ the\ login\ email"]
-        await self.page.locator(self.__EMAIL_INPUT).fill(username)
+        await self.page.locator(self.EMAIL_INPUT).fill(username)
         # Click [aria-label="Text\ field\ for\ the\ login\ password"]
-        await self.page.locator(self.__HAS_TEXT_PASSWORD).click()
+        await self.page.locator(self.HAS_TEXT_PASSWORD).click()
         # Fill [aria-label="Text\ field\ for\ the\ login\ password"]
-        await self.page.locator(self.__PASSWORD_INPUT).fill(password)
+        await self.page.locator(self.PASSWORD_INPUT).fill(password)
         # Click [aria-label="Login"]
-        await self.page.locator(self.__LOGIN_BUTTON).click()
+        await self.page.locator(self.LOGIN_BUTTON).click()
 
     @allure.step
     async def register(self) -> None:
         # Leave the test like this to show how codegen creates code
         # Go to http://0.0.0.0:3000/register
         await self.page.goto("http://0.0.0.0:3000/register")
-        # Go to http://0.0.0.0:3000/register#/
-        await self.page.goto("http://0.0.0.0:3000/register#/")
         # Click [aria-label="Close Welcome Banner"]
         await self.page.locator('[aria-label="Close Welcome Banner"]').click()
         # Click [aria-label="Show\/hide account menu"]

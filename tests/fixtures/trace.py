@@ -51,12 +51,13 @@ async def take_screenshot(request: SubRequest, page: Page) -> Generator[None, No
         pass
 
     # Print SS with name that match: function_where_assertion_occurs()_assertion_line_in_that_function.png
-    screenshot_name: str = f"{SessionConstants.TESTRAIL_C_ID}" if SessionConstants.TESTRAIL_C_ID else "screenshot"
-    await page.screenshot(path=SessionConstants.SCREENSHOT_PATH + "/" + screenshot_name + ".png")
+    print("AAAAAAAAAA")
+    print(request.node.name)
+    await page.screenshot(path=SessionConstants.SCREENSHOT_PATH + "/" + request.node.name + ".png")
 
 
 @fixture(scope="function", autouse=True)
-async def attach_allure_png(page: Page) -> Generator[None, None, None]:
+async def attach_allure_png(request: SubRequest, page: Page) -> Generator[None, None, None]:
     # Add SS to allure if test failed
     yield
-    allure.attach(await page.screenshot(), name=f"{SessionConstants.TESTRAIL_C_ID}", attachment_type=AttachmentType.PNG)
+    allure.attach(await page.screenshot(), name=request.node.name, attachment_type=AttachmentType.PNG)
