@@ -53,7 +53,7 @@ Thumbs.db
 demo.py
 records
 requirements/common.in
-reports
+report
 venv
 *.ini
 .mypy_cache

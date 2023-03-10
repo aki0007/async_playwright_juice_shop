@@ -1,19 +1,32 @@
-
-from logging import Logger
 from typing import Generator
 
 import allure
 from _pytest.fixtures import SubRequest
 from allure_commons.types import AttachmentType
-from playwright.sync_api import Page
-from pytest import FixtureRequest, fixture
+from playwright.async_api import Page
+from typing import Any, Generator
+from pytest import FixtureRequest, hookimpl
+from pytest_asyncio import fixture
 
 from config import conf_obj
 from constants import SessionConstants
+from pluggy._callers import _Result
+
+
+@hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item: str) -> Generator[_Result, None, None]:
+    # execute all other hooks to obtain the report object
+    outcome: _Result = yield
+    rep: Any = outcome.get_result()
+
+    # set a report attribute for each phase of a call, which can
+    # be "setup", "call", "teardown"
+
+    setattr(item, "rep_" + rep.when, rep)
 
 
 @fixture(scope="function")
-def turn_on_trace() -> Generator[None, None, None]:
+async def turn_on_trace() -> Generator[None, None, None]:
     """
     If turn_on_trace fixture is called trace_context will be called instead of context
     In order for trace to work it has to be imported first as fixture in a test case
@@ -24,7 +37,7 @@ def turn_on_trace() -> Generator[None, None, None]:
 
 
 @fixture(scope="function", autouse=True)
-def take_screenshot(request: SubRequest, page: Page) -> Generator[None, None, None]:
+async def take_screenshot(request: SubRequest, page: Page) -> Generator[None, None, None]:
     """
     Take screenshot and save it to report/screenshot/current_date folder
     """
@@ -38,31 +51,12 @@ def take_screenshot(request: SubRequest, page: Page) -> Generator[None, None, No
         pass
 
     # Print SS with name that match: function_where_assertion_occurs()_assertion_line_in_that_function.png
-    screenshot_name: str = (
-        f"{SessionConstants.TESTRAIL_C_ID}"
-        if SessionConstants.TESTRAIL_C_ID
-        else "screenshot"
-    )
-    page.screenshot(
-        path=SessionConstants.SCREENSHOT_PATH + "/" + screenshot_name + ".png"
-    )
+    screenshot_name: str = f"{SessionConstants.TESTRAIL_C_ID}" if SessionConstants.TESTRAIL_C_ID else "screenshot"
+    await page.screenshot(path=SessionConstants.SCREENSHOT_PATH + "/" + screenshot_name + ".png")
 
 
 @fixture(scope="function", autouse=True)
-def attach_allure_png(
-    request: FixtureRequest, page: Page
-) -> Generator[None, None, None]:
+async def attach_allure_png(page: Page) -> Generator[None, None, None]:
     # Add SS to allure if test failed
     yield
-    try:
-        if request.node.rep_call.passed:
-            return
-    except AttributeError:
-        SessionConstants.TESTRAIL_C_ID = "fixture_screenshot"
-
-    allure.attach(
-        page.screenshot(),
-        name=f"{SessionConstants.TESTRAIL_C_ID}",
-        attachment_type=AttachmentType.PNG,
-    )
-
+    allure.attach(await page.screenshot(), name=f"{SessionConstants.TESTRAIL_C_ID}", attachment_type=AttachmentType.PNG)
