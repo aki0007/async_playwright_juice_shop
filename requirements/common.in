@@ -1,0 +1,17 @@
+allure-pytest
+anyio
+gherkin-official
+lovely-pytest-docker
+playwright
+pytest-asyncio
+pytest-dotenv
+pytest-sugar
+pytest-testrail
+pytest-tornasync
+pytest-trio
+pytest-twisted
+python-dateutil
+retry2
+requests
+testrail-api
+twisted

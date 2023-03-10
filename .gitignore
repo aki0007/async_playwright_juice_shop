@@ -52,7 +52,6 @@ Thumbs.db
 # Project files
 demo.py
 records
-requirements/common.in
 report
 venv
 *.ini
