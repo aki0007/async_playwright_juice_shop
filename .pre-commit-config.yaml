@@ -23,25 +23,13 @@ repos:
     repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
 -   hooks:
+    -   id: seed-isort-config
+    repo: https://github.com/asottile/seed-isort-config
+    rev: v2.2.0
+-   hooks:
     -   id: pyupgrade
     repo: https://github.com/asottile/pyupgrade
     rev: v3.3.1
--   hooks:
-    -   args:
-        - -r
-        - requirements/common.txt
-        - -r
-        - requirements/tests.txt
-        - --no-deps
-        - --ignore-vuln
-        - GHSA-w596-4wvx-j9j6
-        id: pip-audit
-    repo: https://github.com/pypa/pip-audit
-    rev: v2.4.15
--   hooks:
-    -   id: pip-compile-multi-verify
-    repo: https://github.com/peterdemin/pip-compile-multi
-    rev: v2.6.2
 -   hooks:
     -   entry: isort
         id: isort
@@ -65,9 +53,8 @@ repos:
         types:
         - python
     -   args:
-        - truveris_api/
+        - src/
         - tests/
-        - migrations/
         entry: mypy
         id: mypy
         language: system
@@ -84,3 +71,15 @@ repos:
         name: pre-commit-update
         pass_filenames: false
     repo: local
+-   hooks:
+    -   args:
+        - -r
+        - requirements/common.txt
+        - -r
+        - requirements/dev.txt
+        - --no-deps
+        - --ignore-vuln
+        - GHSA-w596-4wvx-j9j6
+        id: pip-audit
+    repo: https://github.com/pypa/pip-audit
+    rev: v2.4.15
