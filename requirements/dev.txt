@@ -54,7 +54,7 @@ pip-compile-multi==2.6.2
     # via -r requirements/dev.in
 pip-tools==6.12.3
     # via pip-compile-multi
-platformdirs==3.1.0
+platformdirs==3.1.1
     # via
     #   black
     #   pylint
