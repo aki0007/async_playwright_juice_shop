@@ -1,16 +1,15 @@
-from typing import Generator
+from typing import Any, Generator
 
 import allure
 from _pytest.fixtures import SubRequest
 from allure_commons.types import AttachmentType
 from playwright.async_api import Page
-from typing import Any, Generator
-from pytest import FixtureRequest, hookimpl
+from pluggy._callers import _Result
+from pytest import hookimpl
 from pytest_asyncio import fixture
 
 from config import conf_obj
 from constants import SessionConstants
-from pluggy._callers import _Result
 
 
 @hookimpl(tryfirst=True, hookwrapper=True)
@@ -37,7 +36,9 @@ async def turn_on_trace() -> Generator[None, None, None]:
 
 
 @fixture(scope="function", autouse=True)
-async def take_screenshot(request: SubRequest, page: Page) -> Generator[None, None, None]:
+async def take_screenshot(
+    request: SubRequest, page: Page
+) -> Generator[None, None, None]:
     """
     Take screenshot and save it to report/screenshot/current_date folder
     """
@@ -51,13 +52,19 @@ async def take_screenshot(request: SubRequest, page: Page) -> Generator[None, No
         pass
 
     # Print SS with name that match: function_where_assertion_occurs()_assertion_line_in_that_function.png
-    print("AAAAAAAAAA")
-    print(request.node.name)
-    await page.screenshot(path=SessionConstants.SCREENSHOT_PATH + "/" + request.node.name + ".png")
+    await page.screenshot(
+        path=SessionConstants.SCREENSHOT_PATH + "/" + request.node.name + ".png"
+    )
 
 
 @fixture(scope="function", autouse=True)
-async def attach_allure_png(request: SubRequest, page: Page) -> Generator[None, None, None]:
+async def attach_allure_png(
+    request: SubRequest, page: Page
+) -> Generator[None, None, None]:
     # Add SS to allure if test failed
     yield
-    allure.attach(await page.screenshot(), name=request.node.name, attachment_type=AttachmentType.PNG)
+    allure.attach(
+        await page.screenshot(),
+        name=request.node.name,
+        attachment_type=AttachmentType.PNG,
+    )

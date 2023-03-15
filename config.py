@@ -24,6 +24,7 @@ class Config:
     # Credentials
     LOGIN_USERNAME: str = os.getenv("LOGIN_USERNAME", "user")
     LOGIN_PASSWORD: str = os.getenv("LOGIN_PASSWORD", "1234")
+    SECURITY_ANSWER: str = os.getenv("SECURITY_ANSWER", "answer")
 
     # Consts
     TRACE: bool = False
@@ -46,7 +47,7 @@ def get_config() -> Union[Config, ProductionConfig, StagingConfig]:
     env: str = os.getenv("ENVIRONMENT", "development")
 
     if env not in env_list:
-        raise Exception("Invalid environment")
+        raise AssertionError("Invalid environment")
 
     return env_list[env]()
 
@@ -60,7 +61,7 @@ def get_browser() -> dict:
     }
     env_browser: str = os.getenv("BROWSER", "chrome")
     if env_browser not in browser_list:
-        raise Exception("Invalid browser")
+        raise AssertionError("Invalid browser")
 
     return browser_list[env_browser]
 

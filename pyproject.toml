@@ -35,7 +35,6 @@ jobs = 0
 max-line-length = 20
 disable = [
     "abstract-method",
-    "bad-continuation",
     "bare-except",
     "broad-except",
     "duplicate-code",
@@ -47,12 +46,10 @@ disable = [
     "missing-docstring",
     "no-member",
     "no-name-in-module",
-    "no-self-use",
     "no-value-for-parameter",
     "protected-access",
     "raise-missing-from",
     "redefined-outer-name",
-    "relative-import",
     "too-few-public-methods",
     "ungrouped-imports",
     "unused-argument",
@@ -87,7 +84,6 @@ warn_unused_configs = true
 check_untyped_defs = true
 follow_imports = "silent"
 incremental = true
-plugins = ["sqlalchemy.ext.mypy.plugin"]
 
 [[tool.mypy.overrides]]
 module = [

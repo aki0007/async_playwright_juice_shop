@@ -18,3 +18,5 @@ class SessionConstants:
     DEFAULT_TIMEOUT: int = 60 * 1000  # in seconds
     TEST_NAME: str = ""
     TRACE: bool = False
+
+    FILES_TO_DELETE: list = [STORAGE_STATE]

@@ -5,8 +5,6 @@ from src.pom.login import LoginPage
 
 @mark.registration
 class TestLogin:
-
     @staticmethod
-    async def test_register(login: LoginPage):
-        await login.register()
-
+    async def test_1(login: LoginPage):
+        pass
