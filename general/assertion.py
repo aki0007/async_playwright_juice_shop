@@ -108,8 +108,6 @@ class AssertionMethod:
             timeout = 10
         # locator.is_visible() has deprecated timeout. This is custom implementation
         while timeout > 0:
-            print(timeout)
-            print(await args[0].locator(args[1]).first.is_visible())
             if not await args[0].locator(args[1]).first.is_visible():
                 timeout -= 1
                 time.sleep(1)

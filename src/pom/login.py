@@ -41,7 +41,7 @@ class LoginPage:
             await self.page.locator(self.DISMISS_BUTTON).click()
 
     @allure.step
-    async def login_to_app(self, username, password) -> None:
+    async def application_login(self, username, password) -> None:
         await self.page.locator(self.NAV_BAR).click()
         # Click on Login
         await self.page.locator(self.GO_TO_LOGIN_PAGE).click()
@@ -78,4 +78,4 @@ class LoginPage:
         await self.page.locator(self.REGISTER_BUTTON).click()
 
         # Log in
-        await self.login_to_app(username, password)
+        await self.application_login(username, password)
