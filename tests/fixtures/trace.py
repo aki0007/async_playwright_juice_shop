@@ -1,4 +1,4 @@
-from typing import Any, Generator
+from typing import Any, AsyncGenerator
 
 import allure
 from _pytest.fixtures import SubRequest
@@ -13,7 +13,7 @@ from constants import SessionConstants
 
 
 @hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item: str) -> Generator[_Result, None, None]:
+def pytest_runtest_makereport(item: str) -> AsyncGenerator[_Result, None, None]:
     # execute all other hooks to obtain the report object
     outcome: _Result = yield
     rep: Any = outcome.get_result()
@@ -25,7 +25,7 @@ def pytest_runtest_makereport(item: str) -> Generator[_Result, None, None]:
 
 
 @fixture(scope="function")
-async def turn_on_trace() -> Generator[None, None, None]:
+async def turn_on_trace() -> AsyncGenerator[None, None, None]:
     """
     If turn_on_trace fixture is called trace_context will be called instead of context
     In order for trace to work it has to be imported first as fixture in a test case
@@ -38,7 +38,7 @@ async def turn_on_trace() -> Generator[None, None, None]:
 @fixture(scope="function", autouse=True)
 async def take_screenshot(
     request: SubRequest, page: Page
-) -> Generator[None, None, None]:
+) -> AsyncGenerator[None, None, None]:
     """
     Take screenshot and save it to report/screenshot/current_date folder
     """
@@ -60,7 +60,7 @@ async def take_screenshot(
 @fixture(scope="function", autouse=True)
 async def attach_allure_png(
     request: SubRequest, page: Page
-) -> Generator[None, None, None]:
+) -> AsyncGenerator[None, None, None]:
     # Add SS to allure if test failed
     yield
     allure.attach(

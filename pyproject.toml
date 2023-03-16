@@ -67,7 +67,7 @@ logging-modules = [
 
 [tool.pytest.ini_options]
 markers = [
-    "registration: Registration test",
+    "level_1: ",
 ]
 python_files = [
     "tests_*.py"
