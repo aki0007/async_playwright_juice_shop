@@ -1,3 +1,5 @@
+from typing import AsyncGenerator
+
 from playwright.async_api import Page
 from playwright.async_api._generated import BrowserContext
 from pytest_asyncio import fixture
@@ -9,10 +11,10 @@ pytest_plugins: list = ["tests.fixtures.playwright"]
 
 
 @fixture(scope="function")
-async def login(page: Page, context: BrowserContext) -> LoginPage:
+async def login(page: Page, context: BrowserContext) -> AsyncGenerator[LoginPage, None]:
     yield LoginPage(page)
 
 
 @fixture(scope="function")
-async def score_board(page: Page, context: BrowserContext) -> ScoreBoardPage:
+async def score_board(page: Page, context: BrowserContext) -> AsyncGenerator[ScoreBoardPage, None]:
     yield ScoreBoardPage(page)

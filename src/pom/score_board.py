@@ -20,10 +20,9 @@ class ScoreBoardPage:
 
     @allure.step
     async def select_star_level(self, level: int) -> None:
+        await self.page.pause()
         await self.page.locator(self.STAR_LEVEL.format(level=level)).click()
 
     @allure.step
     async def validate_completed_task(self, task: str) -> None:
-        await AssertionMethod.is_visible(
-            self.page, self.SOLVED_ROW_XPATH.format(task=task)
-        )
+        await AssertionMethod.wait_for_selector_to_become_visible(self.page, self.SOLVED_ROW_XPATH.format(task=task))

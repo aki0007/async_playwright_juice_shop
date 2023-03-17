@@ -9,7 +9,7 @@ known_third_party = ["_pytest", "allure", "allure_commons", "dotenv", "lovely", 
 atomic = true
 
 [tool.black]
-line-length = 88
+line-length = 130
 exclude = '''
 (
   /(
