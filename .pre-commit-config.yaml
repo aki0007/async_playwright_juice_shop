@@ -82,4 +82,4 @@ repos:
         - GHSA-w596-4wvx-j9j6
         id: pip-audit
     repo: https://github.com/pypa/pip-audit
-    rev: v2.5.0
+    rev: v2.5.2
