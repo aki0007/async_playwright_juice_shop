@@ -1,5 +1,5 @@
 include .env
-.PHONY: allure-serve,compose-build,compose-test,compose-test-allure,compose-test-testrail,testrail-creds
+.PHONY: allure-serve,compose-build,pull,playwright-codegen,test,test-allure,test-testrail,testrail-creds,
 .DEFAULT_GOAL := help
 
 define PRINT_HELP_PYSCRIPT
@@ -15,7 +15,7 @@ export PRINT_HELP_PYSCRIPT
 
 
 ALLURE_DIR := report/allure-report
-COMPOSE_SVC_NAME := ttf_unified_platform
+COMPOSE_SVC_NAME := async_playwright
 
 # Jenkins file parameters
 pytestOPT ?=
@@ -31,16 +31,23 @@ allure-serve: ## test
 compose-build: ## build the docker-compose service
 	@docker-compose build
 
-compose-test: ## test
-	@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v $(args)
+pull:
+	@docker-compose pull
 
-compose-test-allure: ## test
-	-@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v --alluredir=$(ALLURE_DIR) $(args)
+playwright-codegen:
+	@make pull
+	@docker-compose up -d && sleep 3 && playwright codegen http://localhost:3000 && docker-compose stop
+
+test: ## test
+	pytest -s -v $(args)
+
+test-allure: ## test
+	-pytest -s -v --alluredir=$(ALLURE_DIR) $(args)
 	@make allure-serve
 
-compose-test-testrail: ## test
+test-testrail: ## test
 	@make testrail-creds
-	-@docker-compose run $(COMPOSE_SVC_NAME) pytest -s -v --testrail --tr-config=testrail.cfg --alluredir=$(ALLURE_DIR) --tr-testrun-name=$(TR_TESTRUN_NAME) $(args)
+	-pytest -s -v --testrail --tr-config=testrail.cfg --alluredir=$(ALLURE_DIR) --tr-testrun-name=$(TR_TESTRUN_NAME) $(args)
 	@make allure-serve
 
 testrail-creds: ## test
