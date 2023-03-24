@@ -24,13 +24,13 @@ dill==0.3.6
     # via pylint
 distlib==0.3.6
     # via virtualenv
-filelock==3.9.0
+filelock==3.10.0
     # via virtualenv
 gitdb==4.0.10
     # via gitpython
 gitpython==3.1.31
     # via pre-commit-update
-identify==2.5.19
+identify==2.5.21
     # via pre-commit
 isort==5.12.0
     # via
@@ -48,7 +48,7 @@ mypy-extensions==1.0.0
     #   mypy
 nodeenv==1.7.0
     # via pre-commit
-pathspec==0.11.0
+pathspec==0.11.1
     # via black
 pip-compile-multi==2.6.2
     # via -r requirements/dev.in
@@ -79,9 +79,9 @@ tomlkit==0.11.6
     # via pylint
 toposort==1.10
     # via pip-compile-multi
-virtualenv==20.20.0
+virtualenv==20.21.0
     # via pre-commit
-wheel==0.38.4
+wheel==0.40.0
     # via pip-tools
 wrapt==1.15.0
     # via astroid

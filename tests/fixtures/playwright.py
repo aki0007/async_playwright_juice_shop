@@ -1,9 +1,10 @@
 import asyncio
 import os
-from typing import Generator
+from asyncio import AbstractEventLoop
+from typing import AsyncGenerator
 
 from _pytest.fixtures import SubRequest
-from playwright.async_api import Playwright, async_playwright, Browser, BrowserType, Page
+from playwright.async_api import Browser, BrowserType, Page, Playwright, async_playwright
 from playwright.async_api._generated import BrowserContext
 from pytest_asyncio import fixture
 
@@ -12,18 +13,18 @@ from constants import SessionConstants
 
 
 @fixture(scope="session")
-def event_loop():
+def event_loop() -> AbstractEventLoop:
     return asyncio.get_event_loop()
 
 
 @fixture(scope="session")
-async def playwright() -> Generator[Playwright, None, None]:
+async def playwright() -> AsyncGenerator[Playwright, None]:
     async with async_playwright() as playwright:
         yield playwright
 
 
 @fixture(scope="session")
-async def browser(playwright: Playwright) -> Browser:
+async def browser(playwright: Playwright) -> AsyncGenerator[Browser, None]:
     browser_info: dict = get_browser()
     launcher: BrowserType = getattr(playwright, browser_info["browser"])
     browser: Browser = await launcher.launch(headless=not LOCAL, channel=browser_info.get("channel"))
@@ -31,7 +32,7 @@ async def browser(playwright: Playwright) -> Browser:
 
 
 @fixture(scope="function")
-async def context(playwright: Playwright, browser: Browser, request: SubRequest) -> BrowserContext:
+async def context(playwright: Playwright, browser: Browser, request: SubRequest) -> AsyncGenerator[BrowserContext, None]:
     # Return context with/without trace depending on config.TRACE bool
     params = {}
     if conf_obj.DEVICES:
@@ -55,7 +56,7 @@ async def context(playwright: Playwright, browser: Browser, request: SubRequest)
 
 
 @fixture(scope="function")
-async def page(context: BrowserContext) -> Page:
+async def page(context: BrowserContext) -> AsyncGenerator[Page, None]:
     # Record video
     page: Page = await context.new_page()
     page.set_default_timeout(SessionConstants.DEFAULT_TIMEOUT)

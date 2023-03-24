@@ -1,13 +1,15 @@
 import allure
-from playwright.async_api import Page
+from playwright.async_api import Page, expect
 
 from config import conf_obj
+from general.assertion import AssertionMethod
 
 
 class LoginPage:
     CLOSE_WELCOME_BANNER: str = "[aria-label='Close Welcome Banner']"
+    CLOSE_SUCCESSFUL_REGISTRATION_MESSAGE = "[class='mat-focus-indicator mat-button mat-button-base']"
     DISMISS_BUTTON: str = "[aria-label='dismiss cookie message']"
-    EMAIL_MUST_BE_UNIQUE: str = ".error"
+    EMAIL_MUST_BE_UNIQUE: str = "Email must be unique"
     GO_TO_LOGIN_PAGE: str = "#navbarLoginButton"
     LOGIN_BUTTON: str = "button[id='loginButton']"
     LOGIN_EMAIL_INPUT: str = "#email"
@@ -20,9 +22,7 @@ class LoginPage:
     SECURITY_QUESTION: str = "div[id^='mat-select-value']"
     SECURITY_QUESTION_ANSWER: str = "#securityAnswerControl"
     SECURITY_QUESTION_SPAN: str = "span:has-text('{question}')"
-    SUCCESSFUL_REGISTRATION: str = (
-        "span:has-text('Registration completed successfully. You can now log in.')"
-    )
+    SUCCESSFUL_REGISTRATION_MESSAGE: str = "span:has-text('Registration completed successfully. You can now log in.')"
     REGISTER_BUTTON: str = "#registerButton"
     WELCOME_BANNER: str = "#cdk-overlay-1"
 
@@ -41,7 +41,7 @@ class LoginPage:
             await self.page.locator(self.DISMISS_BUTTON).click()
 
     @allure.step
-    async def application_login(self, username, password) -> None:
+    async def application_login(self, username: str, password: str) -> None:
         await self.page.locator(self.NAV_BAR).click()
         # Click on Login
         await self.page.locator(self.GO_TO_LOGIN_PAGE).click()
@@ -53,7 +53,7 @@ class LoginPage:
         await self.page.locator(self.LOGIN_BUTTON).click()
 
     @allure.step
-    async def register(self, username, password, security_answer) -> None:
+    async def register(self, username: str, password: str, security_answer: str) -> None:
         await self.page.locator(self.NAV_BAR).click()
         # Click on Login
         await self.page.locator(self.GO_TO_LOGIN_PAGE).click()
@@ -68,14 +68,16 @@ class LoginPage:
         await self.page.locator(self.REPEAT_REGISTER_PASSWORD_INPUT).fill(password)
         # Choose security question
         await self.page.locator(self.SECURITY_QUESTION).click()
-        await self.page.locator(
-            self.SECURITY_QUESTION_SPAN.format(
-                question="Your eldest siblings middle name?"
-            )
-        ).click()
+        await self.page.locator(self.SECURITY_QUESTION_SPAN.format(question="Your eldest siblings middle name?")).click()
         await self.page.locator(self.SECURITY_QUESTION_ANSWER).fill(security_answer)
         # Click Register
         await self.page.locator(self.REGISTER_BUTTON).click()
 
-        # Log in
-        await self.application_login(username, password)
+    async def validate_successful_registration(self) -> None:
+        try:
+            # Validate successful login message and close it
+            await AssertionMethod.wait_for_selector_to_become_visible(self.page, self.SUCCESSFUL_REGISTRATION_MESSAGE, 3)
+            await self.page.get_by_role("button", name="X").click()
+
+        except:
+            await expect(self.page.get_by_text(self.EMAIL_MUST_BE_UNIQUE)).to_be_visible(timeout=3)
