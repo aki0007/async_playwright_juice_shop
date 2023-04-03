@@ -4,7 +4,9 @@ from playwright.async_api import Page
 from playwright.async_api._generated import BrowserContext
 from pytest_asyncio import fixture
 
+from src.pom.chat_bot import ChatBotPage
 from src.pom.login import LoginPage
+from src.pom.navigation import NavigationPage
 from src.pom.score_board import ScoreBoardPage
 
 pytest_plugins: list = ["tests.fixtures.playwright"]
@@ -18,3 +20,13 @@ async def login(page: Page, context: BrowserContext) -> AsyncGenerator[LoginPage
 @fixture(scope="function")
 async def score_board(page: Page, context: BrowserContext) -> AsyncGenerator[ScoreBoardPage, None]:
     yield ScoreBoardPage(page)
+
+
+@fixture(scope="function")
+async def navigation(page: Page, context: BrowserContext) -> AsyncGenerator[NavigationPage, None]:
+    yield NavigationPage(page)
+
+
+@fixture(scope="function")
+async def chatbot(page: Page, context: BrowserContext) -> AsyncGenerator[ChatBotPage, None]:
+    yield ChatBotPage(page)
