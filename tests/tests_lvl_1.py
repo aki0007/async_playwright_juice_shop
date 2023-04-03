@@ -1,5 +1,6 @@
 from pytest import mark
 
+from src.pom.chat_bot import ChatBotPage
 from src.pom.navigation import NavigationPage
 from src.pom.score_board import ScoreBoardPage
 
@@ -15,7 +16,6 @@ class TestLevel1:
     @staticmethod
     async def test_dom_xss(navigation: NavigationPage, score_board: ScoreBoardPage) -> None:
         await navigation.search('<iframe src="javascript:alert(`xss`)">.')
-        await score_board.navigate_to_score_board()
         await score_board.validate_completed_task("DOM XSS")
 
     @staticmethod
@@ -24,5 +24,10 @@ class TestLevel1:
         <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/771984076&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
         """
         await navigation.search(bonus_payload)
-        await score_board.navigate_to_score_board()
         await score_board.validate_completed_task("Bonus Payload")
+
+    @staticmethod
+    async def test_bully_chatbot(navigation: NavigationPage, chatbot: ChatBotPage, score_board: ScoreBoardPage) -> None:
+        await navigation.open_sidetab("chatbot")
+        await chatbot.annoy_chatbot_with_word("discount")
+        await score_board.validate_completed_task("Bully Chatbot")

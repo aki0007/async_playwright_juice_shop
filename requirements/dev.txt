@@ -6,9 +6,9 @@
 #    pip-compile-multi
 #
 -r common.txt
-astroid==2.15.0
+astroid==2.15.2
     # via pylint
-black==23.1.0
+black==23.3.0
     # via -r requirements/dev.in
 build==0.10.0
     # via pip-tools
@@ -24,13 +24,13 @@ dill==0.3.6
     # via pylint
 distlib==0.3.6
     # via virtualenv
-filelock==3.10.0
+filelock==3.10.7
     # via virtualenv
 gitdb==4.0.10
     # via gitpython
 gitpython==3.1.31
     # via pre-commit-update
-identify==2.5.21
+identify==2.5.22
     # via pre-commit
 isort==5.12.0
     # via
@@ -54,16 +54,16 @@ pip-compile-multi==2.6.2
     # via -r requirements/dev.in
 pip-tools==6.12.3
     # via pip-compile-multi
-platformdirs==3.1.1
+platformdirs==3.2.0
     # via
     #   black
     #   pylint
     #   virtualenv
-pre-commit==3.1.1
+pre-commit==3.2.2
     # via -r requirements/dev.in
 pre-commit-update==0.0.5
     # via -r requirements/dev.in
-pylint==2.17.0
+pylint==2.17.2
     # via -r requirements/dev.in
 pyproject-hooks==1.0.0
     # via build
@@ -75,7 +75,7 @@ pyyaml==6.0
     #   pre-commit-update
 smmap==5.0.0
     # via gitdb
-tomlkit==0.11.6
+tomlkit==0.11.7
     # via pylint
 toposort==1.10
     # via pip-compile-multi
