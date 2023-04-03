@@ -20,11 +20,16 @@ class ScoreBoardPage:
 
     @allure.step
     async def select_star_level(self, level: int) -> None:
-        await self.page.pause()
         await self.page.locator(self.STAR_LEVEL.format(level=level)).click()
 
     @allure.step
-    async def validate_completed_task(self, task: str) -> None:
-        await AssertionMethod.wait_for_selector_to_become_visible(self.page, self.SOLVED_ROW_XPATH.format(task=task))
+    async def validate_completed_task(self, task: str, retry: int = 0) -> None:
+        try:
+            await AssertionMethod.wait_for_selector_to_become_visible(self.page, self.SOLVED_ROW_XPATH.format(task=task), 1)
+        except AssertionError:
+            if retry < 2:
+                await self.page.reload()
+                await self.page.wait_for_load_state("networkidle")  # wait for dynamic data loading for table
 
-        await self.page.pause()
+            else:
+                await AssertionMethod.false("Task is not completed after page reload")
