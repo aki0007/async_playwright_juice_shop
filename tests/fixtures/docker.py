@@ -15,7 +15,7 @@ def docker_compose_files(pytestconfig: Config) -> list:
     return [os.path.join(str(pytestconfig.rootpath), "docker-compose.yml")]
 
 
-@fixture(scope="session", autouse=True)
+@fixture(scope="session", autouse=False)
 async def docker_juice_shop(docker_services: Services) -> None:
     docker_service_name: str = "juice_shop"
     docker_services.start(docker_service_name)
