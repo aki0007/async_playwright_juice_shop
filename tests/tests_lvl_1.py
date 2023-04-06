@@ -1,5 +1,6 @@
 from pytest import mark
 
+from src.pom.api import AsyncAPI
 from src.pom.chat_bot import ChatBotPage
 from src.pom.navigation import NavigationPage
 from src.pom.score_board import ScoreBoardPage
@@ -31,3 +32,8 @@ class TestLevel1:
         await navigation.open_sidetab("chatbot")
         await chatbot.annoy_chatbot_with_word("discount")
         await score_board.validate_completed_task("Bully Chatbot")
+
+    @staticmethod
+    async def test_confidential_document(async_api: AsyncAPI, score_board: ScoreBoardPage) -> None:
+        await async_api.async_get("ftp/acquisitions.md")
+        await score_board.validate_completed_task("Confidential Document")

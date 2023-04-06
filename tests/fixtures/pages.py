@@ -1,9 +1,10 @@
 from typing import AsyncGenerator
 
 from playwright.async_api import Page
-from playwright.async_api._generated import BrowserContext
+from playwright.async_api._generated import APIRequestContext
 from pytest_asyncio import fixture
 
+from src.pom.api import AsyncAPI
 from src.pom.chat_bot import ChatBotPage
 from src.pom.login import LoginPage
 from src.pom.navigation import NavigationPage
@@ -13,20 +14,25 @@ pytest_plugins: list = ["tests.fixtures.playwright"]
 
 
 @fixture(scope="function")
-async def login(page: Page, context: BrowserContext) -> AsyncGenerator[LoginPage, None]:
+async def login(page: Page) -> AsyncGenerator[LoginPage, None]:
     yield LoginPage(page)
 
 
 @fixture(scope="function")
-async def score_board(page: Page, context: BrowserContext) -> AsyncGenerator[ScoreBoardPage, None]:
+async def score_board(page: Page) -> AsyncGenerator[ScoreBoardPage, None]:
     yield ScoreBoardPage(page)
 
 
 @fixture(scope="function")
-async def navigation(page: Page, context: BrowserContext) -> AsyncGenerator[NavigationPage, None]:
+async def navigation(page: Page) -> AsyncGenerator[NavigationPage, None]:
     yield NavigationPage(page)
 
 
 @fixture(scope="function")
-async def chatbot(page: Page, context: BrowserContext) -> AsyncGenerator[ChatBotPage, None]:
+async def chatbot(page: Page) -> AsyncGenerator[ChatBotPage, None]:
     yield ChatBotPage(page)
+
+
+@fixture(scope="function")
+async def async_api(api_request: APIRequestContext) -> AsyncGenerator[AsyncAPI, None]:
+    yield AsyncAPI(api_request)

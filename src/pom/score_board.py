@@ -32,6 +32,7 @@ class ScoreBoardPage:
             if retry < 2:
                 await self.page.reload()
                 await self.page.wait_for_load_state("networkidle")  # wait for dynamic data loading for table
+                await self.validate_completed_task(task, retry + 1)
 
             else:
-                await AssertionMethod.false("Task is not completed after page reload")
+                await AssertionMethod.wait_for_selector_to_become_visible(self.page, self.SOLVED_ROW_XPATH.format(task=task), 1)
