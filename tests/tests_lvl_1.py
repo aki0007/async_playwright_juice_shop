@@ -3,6 +3,7 @@ from pytest import mark
 from src.pom.api import AsyncAPI
 from src.pom.chat_bot import ChatBotPage
 from src.pom.navigation import NavigationPage
+from src.pom.photo_wall import PhotoWallPage
 from src.pom.score_board import ScoreBoardPage
 
 
@@ -29,7 +30,7 @@ class TestLevel1:
 
     @staticmethod
     async def test_bully_chatbot(navigation: NavigationPage, chatbot: ChatBotPage, score_board: ScoreBoardPage) -> None:
-        await navigation.open_sidetab("chatbot")
+        await navigation.open_sidetab("Support Chat")
         await chatbot.annoy_chatbot_with_word("discount")
         await score_board.validate_completed_task("Bully Chatbot")
 
@@ -37,3 +38,19 @@ class TestLevel1:
     async def test_confidential_document(async_api: AsyncAPI, score_board: ScoreBoardPage) -> None:
         await async_api.async_get("ftp/acquisitions.md")
         await score_board.validate_completed_task("Confidential Document")
+
+    @staticmethod
+    async def test_error_handling(async_api: AsyncAPI, score_board: ScoreBoardPage) -> None:
+        await async_api.async_get("error-test")
+        await score_board.validate_completed_task("Error Handling")
+
+    @staticmethod
+    async def test_exposed_metrics(navigation: NavigationPage, score_board: ScoreBoardPage) -> None:
+        await navigation.navigate_to_metrics()
+        await score_board.validate_completed_task("Exposed Metrics")
+
+    @staticmethod
+    async def test_missing_encoding(navigation: NavigationPage, photo_wall: PhotoWallPage, score_board: ScoreBoardPage) -> None:
+        await navigation.open_sidetab("Photo Wall")
+        await photo_wall.fix_broken_image()
+        await score_board.validate_completed_task("Missing Encoding")
