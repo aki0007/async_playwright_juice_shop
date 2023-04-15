@@ -26,5 +26,11 @@ class NavigationPage:
 
     @allure.step
     async def navigate_to_metrics(self) -> None:
-        url: str = f"{conf_obj.GLOBAL_URL}/metrics".replace("#/", "")
-        await self.page.goto(url)
+        await self.page.goto(f"{conf_obj.GLOBAL_URL}/metrics".replace("#/", ""))
+        await self.page.wait_for_load_state("networkidle")
+
+    @allure.step
+    async def navigate_to_outdated_allowlist(self) -> None:
+        redirect_url: str = "redirect?to=https://blockchain.info/address/1AbKfgvw9psQ41NbLi8kufDQTezwG8DRZm"
+        await self.page.goto(f"{conf_obj.GLOBAL_URL}/{redirect_url}".replace("#/", ""))
+        await self.page.wait_for_load_state("networkidle")

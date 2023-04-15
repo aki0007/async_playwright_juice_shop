@@ -54,3 +54,8 @@ class TestLevel1:
         await navigation.open_sidetab("Photo Wall")
         await photo_wall.fix_broken_image()
         await score_board.validate_completed_task("Missing Encoding")
+
+    @staticmethod
+    async def test_outdated_allowlist(navigation: NavigationPage, photo_wall: PhotoWallPage, score_board: ScoreBoardPage) -> None:
+        await navigation.navigate_to_outdated_allowlist()
+        await score_board.validate_completed_task("Outdated Allowlist")
