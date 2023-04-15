@@ -7,7 +7,7 @@ from general.assertion import AssertionMethod
 
 class LoginPage:
     CLOSE_WELCOME_BANNER: str = "[aria-label='Close Welcome Banner']"
-    CLOSE_SUCCESSFUL_REGISTRATION_MESSAGE = "[class='mat-focus-indicator mat-button mat-button-base']"
+    CLOSE_SUCCESSFUL_REGISTRATION_MESSAGE: str = "[class='mat-focus-indicator mat-button mat-button-base']"
     DISMISS_BUTTON: str = "[aria-label='dismiss cookie message']"
     EMAIL_MUST_BE_UNIQUE: str = "Email must be unique"
     GO_TO_LOGIN_PAGE: str = "#navbarLoginButton"

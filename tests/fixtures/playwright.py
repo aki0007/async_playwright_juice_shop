@@ -5,7 +5,7 @@ from typing import AsyncGenerator
 
 from _pytest.fixtures import SubRequest
 from playwright.async_api import Browser, BrowserType, Page, Playwright, async_playwright
-from playwright.async_api._generated import BrowserContext
+from playwright.async_api._generated import APIRequestContext, BrowserContext
 from pytest_asyncio import fixture
 
 from config import LOCAL, conf_obj, get_browser
@@ -62,3 +62,8 @@ async def page(context: BrowserContext) -> AsyncGenerator[Page, None]:
     page.set_default_timeout(SessionConstants.DEFAULT_TIMEOUT)
     yield page
     await page.close()
+
+
+@fixture(scope="function")
+async def api_request(context: BrowserContext) -> AsyncGenerator[APIRequestContext, None]:
+    yield context.request

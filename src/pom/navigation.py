@@ -1,10 +1,11 @@
 import allure
 from playwright.async_api import Page
 
+from config import conf_obj
+
 
 class NavigationPage:
-    OPEN_SIDENAV = "[aria-label='Open Sidenav']"
-    OPEN_TAB = "[routerlink='/{tab}']"
+    OPEN_SIDENAV: str = "[aria-label='Open Sidenav']"
     SEARCH_INPUT: str = "#mat-input-0"
     SEARCH_INPUT_WRAPPER: str = "#searchQuery"
 
@@ -21,4 +22,9 @@ class NavigationPage:
     async def open_sidetab(self, tab: str) -> None:
         await self.page.locator(self.OPEN_SIDENAV).click()
         async with self.page.expect_navigation():
-            await self.page.locator(self.OPEN_TAB.format(tab=tab)).click()
+            await self.page.get_by_text(tab).click()
+
+    @allure.step
+    async def navigate_to_metrics(self) -> None:
+        url: str = f"{conf_obj.GLOBAL_URL}/metrics".replace("#/", "")
+        await self.page.goto(url)
