@@ -3,6 +3,7 @@ from pytest import mark
 from src.pom.api import AsyncAPI
 from src.pom.chat_bot import ChatBotPage
 from src.pom.contact import ContactPage
+from src.pom.login import LoginPage
 from src.pom.navigation import NavigationPage
 from src.pom.photo_wall import PhotoWallPage
 from src.pom.score_board import ScoreBoardPage
@@ -72,3 +73,16 @@ class TestLevel1:
         mock_data = {"rating": 0}
         await contact.mock_feedback_request(mock_data)
         await score_board.validate_completed_task("Zero Stars")
+
+    @staticmethod
+    async def test_repetitive_registration(login: LoginPage, score_board: ScoreBoardPage) -> None:
+        await login.logout()
+        await login.not_yet_a_customer()
+        await login.repetitive_registration()
+        await score_board.validate_completed_task("Repetitive Registration")
+
+    @staticmethod
+    async def test_mass_dispel(navigation: NavigationPage, score_board: ScoreBoardPage) -> None:
+        await navigation.home_page()
+        await navigation.close_all_messages()
+        await score_board.validate_completed_task("Mass Dispel")

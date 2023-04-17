@@ -2,6 +2,7 @@ import allure
 from playwright.async_api import Page, expect
 
 from config import conf_obj
+from constants import CURRENT_DATE
 from general.assertion import AssertionMethod
 
 
@@ -14,6 +15,7 @@ class LoginPage:
     LOGIN_BUTTON: str = "button[id='loginButton']"
     LOGIN_EMAIL_INPUT: str = "#email"
     LOGIN_PASSWORD_INPUT: str = "#password"
+    LOGOUT: str = "#navbarLogoutButton"
     NAV_BAR: str = "#navbarAccount"
     NEW_CUSTOMER: str = "#newCustomerLink"
     REGISTER_EMAIL_INPUT: str = "#emailControl"
@@ -81,3 +83,28 @@ class LoginPage:
 
         except:
             await expect(self.page.get_by_text(self.EMAIL_MUST_BE_UNIQUE)).to_be_visible(timeout=3)
+
+    async def logout(self) -> None:
+        await self.page.locator(self.NAV_BAR).click()
+        await self.page.locator(self.LOGOUT).click()
+        await self.page.wait_for_load_state("networkidle")
+
+    async def not_yet_a_customer(self) -> None:
+        await self.page.locator(self.NAV_BAR).click()
+        await self.page.locator(self.GO_TO_LOGIN_PAGE).click()
+        await self.page.wait_for_url("**/login")
+        await self.page.get_by_text("Not yet a customer?").click()
+        await self.page.wait_for_url("**/register")
+
+    async def repetitive_registration(self, username: str = f"temp+{CURRENT_DATE}@gmail.com", password: str = "temp123") -> None:
+        await self.page.locator(self.REGISTER_EMAIL_INPUT).fill(username)
+        await self.page.locator(self.REGISTER_PASSWORD_INPUT).fill(password)
+        await self.page.locator(self.REPEAT_REGISTER_PASSWORD_INPUT).fill(password)
+        # Choose security question
+        await self.page.locator(self.SECURITY_QUESTION).click()
+        await self.page.locator(self.SECURITY_QUESTION_SPAN.format(question="Your eldest siblings middle name?")).click()
+        await self.page.locator(self.SECURITY_QUESTION_ANSWER).fill("Aki")
+        await self.page.locator(self.REGISTER_PASSWORD_INPUT).fill(password + "456")
+
+        # Click Register
+        await self.page.locator(self.REGISTER_BUTTON).click()

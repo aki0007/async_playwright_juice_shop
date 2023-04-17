@@ -6,6 +6,8 @@ from config import conf_obj
 
 class NavigationPage:
     ACCOUNT: str = "#navbarAccount"
+    HOME_PAGE: str = "[aria-label='Back to homepage']"
+    CLOSE_BUTTON: str = "button#closeButton"
     OPEN_SIDENAV: str = "[aria-label='Open Sidenav']"
     PRIVACY_AND_SECURITY: str = "button[aria-label='Show Privacy and Security Menu']"
     PRIVACY_POLICY: str = "button[aria-label='Go to privacy policy page']"
@@ -45,3 +47,14 @@ class NavigationPage:
         async with self.page.expect_navigation():
             await self.page.locator(self.PRIVACY_POLICY).click()
         await self.page.wait_for_load_state("networkidle")
+
+    @allure.step
+    async def home_page(self) -> None:
+        await self.page.locator(self.HOME_PAGE).click()
+
+    @allure.step
+    async def close_all_messages(self) -> None:
+        elements: list = await self.page.locator(self.CLOSE_BUTTON).all()
+        await self.page.pause()
+        for close_button in elements:
+            await close_button.click(modifiers=["Shift"])
