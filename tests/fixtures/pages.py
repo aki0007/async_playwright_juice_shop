@@ -6,6 +6,7 @@ from pytest_asyncio import fixture
 
 from src.pom.api import AsyncAPI
 from src.pom.chat_bot import ChatBotPage
+from src.pom.contact import ContactPage
 from src.pom.login import LoginPage
 from src.pom.navigation import NavigationPage
 from src.pom.photo_wall import PhotoWallPage
@@ -42,3 +43,8 @@ async def async_api(api_request: APIRequestContext) -> AsyncGenerator[AsyncAPI, 
 @fixture(scope="function")
 async def photo_wall(page: Page) -> AsyncGenerator[PhotoWallPage, None]:
     yield PhotoWallPage(page)
+
+
+@fixture(scope="function")
+async def contact(page: Page, api_request: APIRequestContext) -> AsyncGenerator[ContactPage, None]:
+    yield ContactPage(page, api_request)

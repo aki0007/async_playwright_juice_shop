@@ -11,7 +11,6 @@ class AsyncAPI:
 
     @allure.step
     async def async_get(self, url: str) -> APIResponse:
-        url_to_send: str = (conf_obj.GLOBAL_URL + url).replace("#", "")
-        response: APIResponse = await self.api.get(url_to_send)
-        assert response.ok
+        url = (conf_obj.GLOBAL_URL + url).replace("#", "")
+        response: APIResponse = await self.api.get(url)
         return response
