@@ -2,6 +2,8 @@ from pytest import mark
 
 from src.pom.api import AsyncAPI
 from src.pom.chat_bot import ChatBotPage
+from src.pom.contact import ContactPage
+from src.pom.login import LoginPage
 from src.pom.navigation import NavigationPage
 from src.pom.photo_wall import PhotoWallPage
 from src.pom.score_board import ScoreBoardPage
@@ -30,7 +32,7 @@ class TestLevel1:
 
     @staticmethod
     async def test_bully_chatbot(navigation: NavigationPage, chatbot: ChatBotPage, score_board: ScoreBoardPage) -> None:
-        await navigation.open_sidetab("Support Chat")
+        await navigation.open_side_menu_tab("Support Chat")
         await chatbot.annoy_chatbot_with_word("discount")
         await score_board.validate_completed_task("Bully Chatbot")
 
@@ -41,7 +43,7 @@ class TestLevel1:
 
     @staticmethod
     async def test_error_handling(async_api: AsyncAPI, score_board: ScoreBoardPage) -> None:
-        await async_api.async_get("error-test")
+        await async_api.async_get("rest/4ry007")
         await score_board.validate_completed_task("Error Handling")
 
     @staticmethod
@@ -51,6 +53,36 @@ class TestLevel1:
 
     @staticmethod
     async def test_missing_encoding(navigation: NavigationPage, photo_wall: PhotoWallPage, score_board: ScoreBoardPage) -> None:
-        await navigation.open_sidetab("Photo Wall")
+        await navigation.open_side_menu_tab("Photo Wall")
         await photo_wall.fix_broken_image()
         await score_board.validate_completed_task("Missing Encoding")
+
+    @staticmethod
+    async def test_outdated_allowlist(navigation: NavigationPage, score_board: ScoreBoardPage) -> None:
+        await navigation.navigate_to_outdated_allowlist()
+        await score_board.validate_completed_task("Outdated Allowlist")
+
+    @staticmethod
+    async def test_privacy_policy(navigation: NavigationPage, score_board: ScoreBoardPage) -> None:
+        await navigation.open_privacy_policy()
+        await score_board.validate_completed_task("Privacy Policy")
+
+    @staticmethod
+    async def test_zero_feedback(navigation: NavigationPage, contact: ContactPage, score_board: ScoreBoardPage) -> None:
+        await navigation.open_side_menu_tab("Customer Feedback")
+        mock_data = {"rating": 0}
+        await contact.mock_feedback_request(mock_data)
+        await score_board.validate_completed_task("Zero Stars")
+
+    @staticmethod
+    async def test_repetitive_registration(login: LoginPage, score_board: ScoreBoardPage) -> None:
+        await login.logout()
+        await login.not_yet_a_customer()
+        await login.repetitive_registration()
+        await score_board.validate_completed_task("Repetitive Registration")
+
+    @staticmethod
+    async def test_mass_dispel(navigation: NavigationPage, score_board: ScoreBoardPage) -> None:
+        await navigation.home_page()
+        await navigation.close_all_messages()
+        await score_board.validate_completed_task("Mass Dispel")

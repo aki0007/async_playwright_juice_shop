@@ -26,6 +26,8 @@ class ScoreBoardPage:
     async def validate_completed_task(self, task: str, retry: int = 0) -> None:
         if "score-board" not in self.page.url:
             await self.navigate_to_score_board()
+            await self.page.wait_for_load_state("networkidle")
+
         try:
             await AssertionMethod.wait_for_selector_to_become_visible(self.page, self.SOLVED_ROW_XPATH.format(task=task), 1)
         except AssertionError:

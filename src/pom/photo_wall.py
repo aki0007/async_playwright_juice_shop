@@ -1,5 +1,5 @@
 import urllib.parse
-from typing import Optional
+from typing import Any
 
 import allure
 from playwright.async_api import Page
@@ -15,7 +15,8 @@ class PhotoWallPage:
     @allure.step
     async def fix_broken_image(self) -> None:
         # Get broken img src
-        decoded_src: str = urllib.parse.quote(await self.page.locator(self.BROKEN_IMAGE).get_attribute("src"))
+        image_src: Any = await self.page.locator(self.BROKEN_IMAGE).get_attribute("src")
+        decoded_src: str = urllib.parse.quote(image_src)
         await self.page.evaluate(
             self.JS_SET_ATTRIBUTE_COMMAND.format(element=self.BROKEN_IMAGE, attribute="src", value=decoded_src)
         )
