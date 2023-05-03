@@ -6,6 +6,7 @@ from config import conf_obj
 
 class NavigationPage:
     ACCOUNT: str = "#navbarAccount"
+    NAVIGATION_LOGIN: str = "#navbarLoginButton"
     HOME_PAGE: str = "[aria-label='Back to homepage']"
     CLOSE_BUTTON: str = "button#closeButton"
     OPEN_SIDENAV: str = "[aria-label='Open Sidenav']"
@@ -51,6 +52,12 @@ class NavigationPage:
     @allure.step
     async def home_page(self) -> None:
         await self.page.locator(self.HOME_PAGE).click()
+
+    @allure.step
+    async def navigate_to_login(self) -> None:
+        await self.page.locator(self.ACCOUNT).click()
+        await self.page.locator(self.NAVIGATION_LOGIN).click()
+        await self.page.wait_for_load_state("networkidle")
 
     @allure.step
     async def close_all_messages(self) -> None:

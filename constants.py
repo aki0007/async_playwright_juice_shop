@@ -10,6 +10,7 @@ class SessionConstants:
     RESOURCES_PATH: str = "tests/test_resources/"
     SCREENSHOT_PATH: str = "report/screenshots/" + CURRENT_DATE
     STORAGE_STATE: str = "state.json"
+    BEST_1050_PASSWORDS: str = "data/passwords.txt"
 
     # Cookies
     COOKIES: list = []
