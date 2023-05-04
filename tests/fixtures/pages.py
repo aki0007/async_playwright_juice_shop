@@ -8,6 +8,7 @@ from src.api.api import AsyncAPI
 from src.api.interceptor import AsyncInterceptor
 from src.pom.administration import AdministrationPage
 from src.pom.chat_bot import ChatBotPage
+from src.pom.complain import ComplainPage
 from src.pom.contact import ContactPage
 from src.pom.login import LoginPage
 from src.pom.navigation import NavigationPage
@@ -60,3 +61,8 @@ async def async_interceptor(page: Page) -> AsyncGenerator[AsyncInterceptor, None
 @fixture(scope="function")
 async def administration(page: Page) -> AsyncGenerator[AdministrationPage, None]:
     yield AdministrationPage(page)
+
+
+@fixture(scope="function")
+async def complain(page: Page) -> AsyncGenerator[ComplainPage, None]:
+    yield ComplainPage(page)

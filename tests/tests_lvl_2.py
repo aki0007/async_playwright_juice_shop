@@ -1,8 +1,10 @@
 from pytest import mark
 
+from constants import SessionConstants
 from src.api.api import AsyncAPI
 from src.api.interceptor import AsyncInterceptor
 from src.pom.administration import AdministrationPage
+from src.pom.complain import ComplainPage
 from src.pom.login import LoginPage
 from src.pom.navigation import NavigationPage
 from src.pom.score_board import ScoreBoardPage
@@ -36,3 +38,9 @@ class TestLevel2:
         await login.login_to_app(username="admin@juice-sh.op", password="admin123")  # Password found in previous test
         await administration.navigate_to_administration()
         await score_board.validate_completed_task("Admin Section", star=2)
+
+    @staticmethod
+    async def test_deprecated_interface(navigation: NavigationPage, complain: ComplainPage, score_board: ScoreBoardPage) -> None:
+        await navigation.open_side_menu_tab("Complaint")
+        await complain.upload_invoice(message="test", file=SessionConstants.DEPRECATED_INTERFACE)
+        await score_board.validate_completed_task("Deprecated Interface", star=2)
