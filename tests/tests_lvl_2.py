@@ -2,6 +2,7 @@ from pytest import mark
 
 from src.api.api import AsyncAPI
 from src.api.interceptor import AsyncInterceptor
+from src.pom.administration import AdministrationPage
 from src.pom.login import LoginPage
 from src.pom.navigation import NavigationPage
 from src.pom.score_board import ScoreBoardPage
@@ -21,7 +22,17 @@ class TestLevel2:
 
     @staticmethod
     async def test_password_strength(
-        login: LoginPage, async_interceptor: AsyncInterceptor, async_api: AsyncAPI, score_board: ScoreBoardPage
+        async_interceptor: AsyncInterceptor, async_api: AsyncAPI, score_board: ScoreBoardPage
     ) -> None:
         await async_interceptor.brute_force_login(username="admin@juice-sh.op", async_api=async_api)
         await score_board.validate_completed_task("Password Strength", star=2)
+
+    @staticmethod
+    async def test_admin_section(
+        administration: AdministrationPage, login: LoginPage, navigation: NavigationPage, score_board: ScoreBoardPage
+    ) -> None:
+        await login.logout()
+        await navigation.navigate_to_login()
+        await login.login_to_app(username="admin@juice-sh.op", password="admin123")  # Password found in previous test
+        await administration.navigate_to_administration()
+        await score_board.validate_completed_task("Admin Section", star=2)
