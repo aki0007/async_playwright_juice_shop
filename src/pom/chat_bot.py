@@ -13,7 +13,9 @@ class ChatBotPage:
 
     @allure.step
     async def navigate_to_chat_bot(self) -> None:
+        await self.page.wait_for_load_state("networkidle")
         await self.page.goto(f"{conf_obj.GLOBAL_URL}/chatbot")
+        await self.page.wait_for_load_state("networkidle")
 
     @allure.step
     async def annoy_chatbot_with_word(self, word: str, retry: int = 0) -> None:

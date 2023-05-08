@@ -44,3 +44,23 @@ class TestLevel2:
         await navigation.open_side_menu_tab("Complaint")
         await complain.upload_invoice(message="test", file=SessionConstants.DEPRECATED_INTERFACE)
         await score_board.validate_completed_task("Deprecated Interface", star=2)
+
+    @staticmethod
+    async def test_five_star_feedback(
+        navigation: NavigationPage, login: LoginPage, administration: AdministrationPage, score_board: ScoreBoardPage
+    ) -> None:
+        await login.logout()
+        await navigation.navigate_to_login()
+        await login.login_to_app(username="admin@juice-sh.op", password="admin123")  # Password found in previous test
+        await administration.navigate_to_administration()
+        await administration.delete_file_star_comment()
+        await score_board.validate_completed_task("Admin Section", star=2)
+
+    @staticmethod
+    async def test_login_mc_safe_search(
+        navigation: NavigationPage, login: LoginPage, administration: AdministrationPage, score_board: ScoreBoardPage
+    ) -> None:
+        await login.logout()
+        await navigation.navigate_to_login()
+        await login.login_to_app(username="mc.safesearch@juice-sh.op", password="Mr. N00dles")
+        await score_board.validate_completed_task("Login MC SafeSearch", star=2)

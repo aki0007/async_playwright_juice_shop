@@ -57,6 +57,7 @@ class LoginPage:
         await self.page.locator(self.LOGIN_PASSWORD_INPUT).fill(password)
         # Click Log in
         await self.page.locator(self.LOGIN_BUTTON).click()
+        await self.page.wait_for_load_state("networkidle")
 
     @allure.step
     async def register(self, username: str, password: str, security_answer: str) -> None:

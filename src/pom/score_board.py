@@ -16,7 +16,9 @@ class ScoreBoardPage:
 
     @allure.step
     async def navigate_to_score_board(self) -> None:
+        await self.page.wait_for_load_state("networkidle")
         await self.page.goto(f"{conf_obj.GLOBAL_URL}/score-board")
+        await self.page.wait_for_load_state("networkidle")
 
     @allure.step
     async def select_star_level(self, level: int) -> None:
@@ -26,7 +28,6 @@ class ScoreBoardPage:
     async def validate_completed_task(self, task: str, star: int = 1, retry: int = 0) -> None:
         if "score-board" not in self.page.url:
             await self.navigate_to_score_board()
-            await self.page.wait_for_load_state("networkidle")
             # If necessary select star level
             if star != 1:
                 await self.select_star_level(star)
