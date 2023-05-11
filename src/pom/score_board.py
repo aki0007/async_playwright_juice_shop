@@ -16,9 +16,7 @@ class ScoreBoardPage:
 
     @allure.step
     async def navigate_to_score_board(self) -> None:
-        await self.page.wait_for_load_state("networkidle")
-        await self.page.goto(f"{conf_obj.GLOBAL_URL}/score-board")
-        await self.page.wait_for_load_state("networkidle")
+        await self.page.goto(f"{conf_obj.GLOBAL_URL}/score-board", wait_until="networkidle")
 
     @allure.step
     async def select_star_level(self, level: int) -> None:
@@ -26,19 +24,18 @@ class ScoreBoardPage:
 
     @allure.step
     async def validate_completed_task(self, task: str, star: int = 1, retry: int = 0) -> None:
-        if "score-board" not in self.page.url:
-            await self.navigate_to_score_board()
+        try:
+            if "score-board" not in self.page.url:
+                await self.navigate_to_score_board()
             # If necessary select star level
             if star != 1:
                 await self.select_star_level(star)
 
-        try:
             await AssertionMethod.wait_for_selector_to_become_visible(self.page, self.SOLVED_ROW_XPATH.format(task=task), 1)
         # Retry:
         except AssertionError:
             if retry < 2:
-                await self.page.reload()
-                await self.page.wait_for_load_state("networkidle")  # wait for dynamic data loading for table
+                await self.page.reload(wait_until="networkidle")
                 await self.validate_completed_task(task, star, retry + 1)
 
             else:

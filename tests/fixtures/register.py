@@ -13,6 +13,7 @@ async def register_and_login(
     login: LoginPage,
     context: BrowserContext,
 ) -> None:
+    print("Login fixture")
     await login.navigate_to_homepage()
 
     if os.path.exists(SessionConstants.STORAGE_STATE):

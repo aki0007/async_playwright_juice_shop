@@ -14,9 +14,7 @@ class ComplainPage:
 
     @allure.step
     async def navigate_to_complain(self) -> None:
-        await self.page.wait_for_load_state("networkidle")
-        await self.page.goto(f"{conf_obj.GLOBAL_URL}/complain")
-        await self.page.wait_for_load_state("networkidle")
+        await self.page.goto(f"{conf_obj.GLOBAL_URL}/complain", wait_until="networkidle")
 
     @allure.step
     async def upload_invoice(self, message: str, file: str) -> None:

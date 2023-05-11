@@ -26,16 +26,12 @@ class NavigationPage:
 
     @allure.step
     async def navigate_to_metrics(self) -> None:
-        await self.page.wait_for_load_state("networkidle")
-        await self.page.goto(f"{conf_obj.GLOBAL_URL}/metrics".replace("#/", ""))
-        await self.page.wait_for_load_state("networkidle")
+        await self.page.goto(f"{conf_obj.GLOBAL_URL}/metrics".replace("#/", ""), wait_until="networkidle")
 
     @allure.step
     async def navigate_to_outdated_allowlist(self) -> None:
         redirect_url: str = "redirect?to=https://blockchain.info/address/1AbKfgvw9psQ41NbLi8kufDQTezwG8DRZm"
-        await self.page.wait_for_load_state("networkidle")
-        await self.page.goto(f"{conf_obj.GLOBAL_URL}/{redirect_url}".replace("#/", ""))
-        await self.page.wait_for_load_state("networkidle")
+        await self.page.goto(f"{conf_obj.GLOBAL_URL}/{redirect_url}".replace("#/", ""), wait_until="networkidle")
 
     @allure.step
     async def open_side_menu_tab(self, tab: str) -> None:
@@ -64,6 +60,5 @@ class NavigationPage:
     @allure.step
     async def close_all_messages(self) -> None:
         elements: list = await self.page.locator(self.CLOSE_BUTTON).all()
-        await self.page.pause()
         for close_button in elements:
             await close_button.click(modifiers=["Shift"])

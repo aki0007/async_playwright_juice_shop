@@ -12,9 +12,7 @@ class AdministrationPage:
 
     @allure.step
     async def navigate_to_administration(self) -> None:
-        await self.page.wait_for_load_state("networkidle")
-        await self.page.goto(f"{conf_obj.GLOBAL_URL}/administration")
-        await self.page.wait_for_load_state("networkidle")
+        await self.page.goto(f"{conf_obj.GLOBAL_URL}/administration", wait_until="networkidle")
 
     @allure.step
     async def delete_file_star_comment(self) -> None:

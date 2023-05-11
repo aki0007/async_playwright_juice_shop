@@ -22,7 +22,7 @@ attrs==23.1.0
     #   twisted
 automat==22.10.0
     # via twisted
-certifi==2022.12.7
+certifi==2023.5.7
     # via requests
 charset-normalizer==3.1.0
     # via requests
@@ -95,7 +95,7 @@ python-dateutil==2.8.2
     # via -r requirements/common.in
 python-dotenv==1.0.0
     # via pytest-dotenv
-requests==2.29.0
+requests==2.30.0
     # via
     #   -r requirements/common.in
     #   pytest-testrail
@@ -125,7 +125,7 @@ typing-extensions==4.5.0
     # via
     #   pyee
     #   twisted
-urllib3==1.26.15
+urllib3==2.0.2
     # via requests
 zope-interface==6.0
     # via twisted

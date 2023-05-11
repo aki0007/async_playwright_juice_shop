@@ -44,6 +44,5 @@ class ContactPage:
         # Captcha
         captcha: int = await self.solve_captcha()
         await self.page.locator(self.CAPTCHA_INPUT).fill(str(captcha))
-        await self.page.pause()
         # Submit
         await self.page.locator(self.SUBMIT_BUTTON).click()

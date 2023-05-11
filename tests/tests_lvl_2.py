@@ -62,5 +62,6 @@ class TestLevel2:
     ) -> None:
         await login.logout()
         await navigation.navigate_to_login()
+        # Navigating to "mc safesearc" user come across rap song on YouTube where rapper says password
         await login.login_to_app(username="mc.safesearch@juice-sh.op", password="Mr. N00dles")
         await score_board.validate_completed_task("Login MC SafeSearch", star=2)

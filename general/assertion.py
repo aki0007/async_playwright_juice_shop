@@ -19,15 +19,11 @@ class AssertionMethod:
 
     @staticmethod
     async def greater_then(*args: Any) -> None:
-        assert (
-            await args[0] > args[1]
-        ), f"Value '{args[0]}' is not greater then {args[1]}"
+        assert await args[0] > args[1], f"Value '{args[0]}' is not greater then {args[1]}"
 
     @staticmethod
     async def is_checked(*args: Any) -> None:
-        assert (
-            await args[0].locator(args[1]).is_checked()
-        ), f"Locator {args[1]} is not checked"
+        assert await args[0].locator(args[1]).is_checked(), f"Locator {args[1]} is not checked"
 
     @staticmethod
     async def is_empty(*args: Any) -> None:
@@ -35,17 +31,15 @@ class AssertionMethod:
 
     @staticmethod
     async def is_equal(*args: Any) -> None:
-        assert (
-            await args[0] == args[1]
-        ), f"Data '{args[0]}' is not the same as '{args[1]}'"
+        assert args[0] == args[1], f"Data '{args[0]}' is not the same as '{args[1]}'"
 
     @staticmethod
     async def is_in(*args: Any) -> None:
-        assert await args[0] in args[1], f"Data '{args[0]}' is not in '{args[1]}'"
+        assert args[0] in args[1], f"Data '{args[0]}' is not in '{args[1]}'"
 
     @staticmethod
     async def is_not_none(*args: Any) -> None:
-        assert await args[0] is not None, f"Data '{args[0]}' is None"
+        assert args[0] is not None, f"Data '{args[0]}' is None"
 
     @staticmethod
     async def is_not_visible(*args: Any) -> None:
@@ -54,9 +48,7 @@ class AssertionMethod:
         # args[1]: selector
         # args[2]: assert awaitionMethod.RELOAD
         try:
-            assert (
-                not await args[0].locator(args[1]).is_visible()
-            ), f"Locator '{args[1]}' should not be visible"
+            assert not await args[0].locator(args[1]).is_visible(), f"Locator '{args[1]}' should not be visible"
         except AssertionError:
             try:
                 if args[2]:
@@ -72,9 +64,7 @@ class AssertionMethod:
         # args[1]: selector
         # args[2]: assert awaitionMethod.RELOAD
         try:
-            assert (
-                await args[0].locator(args[1]).first.is_visible()
-            ), f"Locator {args[1]} is not visible"
+            assert await args[0].locator(args[1]).first.is_visible(), f"Locator {args[1]} is not visible"
         except AssertionError:
             try:
                 if args[2]:
@@ -84,21 +74,15 @@ class AssertionMethod:
 
     @staticmethod
     async def lesser_than(*args: Any) -> None:
-        assert (
-            await args[0] < args[1]
-        ), f"Value '{args[0]}' is not lesser then '{args[1]}'"
+        assert await args[0] < args[1], f"Value '{args[0]}' is not lesser then '{args[1]}'"
 
     @staticmethod
     async def not_equal(*args: Any) -> None:
-        assert (
-            await args[0] != args[1]
-        ), f"Data '{args[0]}' is not the same as '{args[1]}'"
+        assert await args[0] != args[1], f"Data '{args[0]}' is not the same as '{args[1]}'"
 
     @staticmethod
     async def not_in(*args: Any) -> None:
-        assert (
-            await args[0] not in args[1]
-        ), f"Data '{args[0]}' should not be in '{args[1]}'"
+        assert await args[0] not in args[1], f"Data '{args[0]}' should not be in '{args[1]}'"
 
     @staticmethod
     async def wait_for_selector_to_become_visible(*args: Any) -> None:
