@@ -11,6 +11,10 @@ class SessionConstants:
     SCREENSHOT_PATH: str = "report/screenshots/" + CURRENT_DATE
     STORAGE_STATE: str = "state.json"
 
+    # Files
+    BEST_1050_PASSWORDS: str = "data/passwords.txt"
+    DEPRECATED_INTERFACE: str = "data/deprecated_interface.xml"
+
     # Cookies
     COOKIES: list = []
 

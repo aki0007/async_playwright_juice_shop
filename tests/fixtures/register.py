@@ -20,5 +20,5 @@ async def register_and_login(
 
     await login.register(conf_obj.LOGIN_USERNAME, conf_obj.LOGIN_PASSWORD, conf_obj.SECURITY_ANSWER)
     await login.validate_successful_registration()
-    await login.application_login(conf_obj.LOGIN_USERNAME, conf_obj.LOGIN_PASSWORD)
+    await login.login_from_registration(conf_obj.LOGIN_USERNAME, conf_obj.LOGIN_PASSWORD)
     await context.storage_state(path=SessionConstants.STORAGE_STATE)

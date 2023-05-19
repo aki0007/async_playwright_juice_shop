@@ -1,6 +1,7 @@
 from pytest import mark
 
-from src.pom.api import AsyncAPI
+from src.api.api import AsyncAPI
+from src.api.interceptor import AsyncInterceptor
 from src.pom.chat_bot import ChatBotPage
 from src.pom.contact import ContactPage
 from src.pom.login import LoginPage
@@ -68,10 +69,13 @@ class TestLevel1:
         await score_board.validate_completed_task("Privacy Policy")
 
     @staticmethod
-    async def test_zero_feedback(navigation: NavigationPage, contact: ContactPage, score_board: ScoreBoardPage) -> None:
-        await navigation.open_side_menu_tab("Customer Feedback")
+    async def test_zero_feedback(
+        navigation: NavigationPage, async_interceptor: AsyncInterceptor, contact: ContactPage, score_board: ScoreBoardPage
+    ) -> None:
         mock_data = {"rating": 0}
-        await contact.mock_feedback_request(mock_data)
+        await navigation.open_side_menu_tab("Customer Feedback")
+        await async_interceptor.mock_feedback_request("**/api/Feedbacks/", mock_data)
+        await contact.fill_inputs_and_submit()
         await score_board.validate_completed_task("Zero Stars")
 
     @staticmethod

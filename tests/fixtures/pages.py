@@ -4,8 +4,11 @@ from playwright.async_api import Page
 from playwright.async_api._generated import APIRequestContext
 from pytest_asyncio import fixture
 
-from src.pom.api import AsyncAPI
+from src.api.api import AsyncAPI
+from src.api.interceptor import AsyncInterceptor
+from src.pom.administration import AdministrationPage
 from src.pom.chat_bot import ChatBotPage
+from src.pom.complain import ComplainPage
 from src.pom.contact import ContactPage
 from src.pom.login import LoginPage
 from src.pom.navigation import NavigationPage
@@ -46,5 +49,20 @@ async def photo_wall(page: Page) -> AsyncGenerator[PhotoWallPage, None]:
 
 
 @fixture(scope="function")
-async def contact(page: Page, api_request: APIRequestContext) -> AsyncGenerator[ContactPage, None]:
-    yield ContactPage(page, api_request)
+async def contact(page: Page) -> AsyncGenerator[ContactPage, None]:
+    yield ContactPage(page)
+
+
+@fixture(scope="function")
+async def async_interceptor(page: Page) -> AsyncGenerator[AsyncInterceptor, None]:
+    yield AsyncInterceptor(page)
+
+
+@fixture(scope="function")
+async def administration(page: Page) -> AsyncGenerator[AdministrationPage, None]:
+    yield AdministrationPage(page)
+
+
+@fixture(scope="function")
+async def complain(page: Page) -> AsyncGenerator[ComplainPage, None]:
+    yield ComplainPage(page)

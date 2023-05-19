@@ -1,6 +1,5 @@
 import allure
-from playwright.async_api import APIRequestContext, Page
-from playwright.async_api._generated import Request, Route
+from playwright.async_api import Page
 
 from config import conf_obj
 
@@ -12,14 +11,12 @@ class ContactPage:
     CAPTCHA: str = "#captcha"
     CAPTCHA_INPUT: str = "#captchaControl"
     COMMENT_TEXTAREA: str = "#comment"
-    MOCK_DATA: dict = {}
     RATING_SLIDER: str = "#rating"
     RATING_SLIDER_THUMB: str = "div[class='mat-slider-thumb']"
     SUBMIT_BUTTON: str = "#submitButton"
 
-    def __init__(self, page: Page, api_request_context: APIRequestContext) -> None:
+    def __init__(self, page: Page) -> None:
         self.page: Page = page
-        self.api: APIRequestContext = api_request_context
 
     @allure.step
     async def solve_captcha(self) -> int:
@@ -49,16 +46,3 @@ class ContactPage:
         await self.page.locator(self.CAPTCHA_INPUT).fill(str(captcha))
         # Submit
         await self.page.locator(self.SUBMIT_BUTTON).click()
-
-    @allure.step
-    async def mock_feedback_request(self, mock_data: dict) -> None:
-        self.MOCK_DATA = mock_data
-        await self.page.route("**/api/Feedbacks/", self.handle)
-        # Fill in default inputs as page.route will rewrite it
-        await self.fill_inputs_and_submit()
-
-    async def handle(self, route: Route, request: Request) -> None:
-        post_data_temp = request.post_data_json
-        for key, value in self.MOCK_DATA.items():
-            post_data_temp[key] = value  # type: ignore
-        await route.continue_(post_data=post_data_temp)

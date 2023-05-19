@@ -43,16 +43,21 @@ class LoginPage:
             await self.page.locator(self.DISMISS_BUTTON).click()
 
     @allure.step
-    async def application_login(self, username: str, password: str) -> None:
+    async def login_from_registration(self, username: str, password: str) -> None:
         await self.page.locator(self.NAV_BAR).click()
         # Click on Login
         await self.page.locator(self.GO_TO_LOGIN_PAGE).click()
         await self.page.wait_for_url("**/login")
+        await self.login_to_app(username=username, password=password)
+
+    @allure.step
+    async def login_to_app(self, username: str, password: str) -> None:
         # Set up User registration data
         await self.page.locator(self.LOGIN_EMAIL_INPUT).fill(username)
         await self.page.locator(self.LOGIN_PASSWORD_INPUT).fill(password)
         # Click Log in
-        await self.page.locator(self.LOGIN_BUTTON).click()
+        async with self.page.expect_navigation():
+            await self.page.locator(self.LOGIN_BUTTON).click()
 
     @allure.step
     async def register(self, username: str, password: str, security_answer: str) -> None:

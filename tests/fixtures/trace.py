@@ -1,3 +1,4 @@
+import os
 from typing import Any, AsyncGenerator, Generator
 
 import allure
@@ -22,6 +23,9 @@ def pytest_runtest_makereport(item: str) -> Generator[None, None, None]:
     # be "setup", "call", "teardown"
 
     setattr(item, "rep_" + rep.when, rep)
+    # Delete state.json so login works
+    if os.path.exists(SessionConstants.STORAGE_STATE):
+        os.remove(SessionConstants.STORAGE_STATE)
 
 
 @fixture(scope="function")
