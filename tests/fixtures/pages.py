@@ -10,6 +10,7 @@ from src.pom.administration import AdministrationPage
 from src.pom.chat_bot import ChatBotPage
 from src.pom.complain import ComplainPage
 from src.pom.contact import ContactPage
+from src.pom.forget_password import ForgetPasswordPage
 from src.pom.login import LoginPage
 from src.pom.navigation import NavigationPage
 from src.pom.photo_wall import PhotoWallPage
@@ -66,3 +67,8 @@ async def administration(page: Page) -> AsyncGenerator[AdministrationPage, None]
 @fixture(scope="function")
 async def complain(page: Page) -> AsyncGenerator[ComplainPage, None]:
     yield ComplainPage(page)
+
+
+@fixture(scope="function")
+async def forget_password(page: Page) -> AsyncGenerator[ForgetPasswordPage, None]:
+    yield ForgetPasswordPage(page)
