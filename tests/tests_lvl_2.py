@@ -5,6 +5,7 @@ from src.api.api import AsyncAPI
 from src.api.interceptor import AsyncInterceptor
 from src.pom.administration import AdministrationPage
 from src.pom.complain import ComplainPage
+from src.pom.forget_password import ForgetPasswordPage
 from src.pom.login import LoginPage
 from src.pom.navigation import NavigationPage
 from src.pom.score_board import ScoreBoardPage
@@ -65,3 +66,15 @@ class TestLevel2:
         # Navigating to "mc safesearc" user come across rap song on YouTube where rapper says password
         await login.login_to_app(username="mc.safesearch@juice-sh.op", password="Mr. N00dles")
         await score_board.validate_completed_task("Login MC SafeSearch", star=2)
+
+    @staticmethod
+    async def test_meta_geo_stalking(forget_password: ForgetPasswordPage, score_board: ScoreBoardPage) -> None:
+        await score_board.navigate_to_score_board()
+        await score_board.click_on_johns_forget_password()
+        # TODO  This challenge is solved by meta searching picture,
+        #  fetching coordinates and navigating trough google maps.
+        await forget_password.fill_in_data_and_confirm(
+            email="john@juice-sh.op", security_answer="Daniel Boone National Forest", password="temp1*"
+        )
+
+        await score_board.validate_completed_task("Meta Geo Stalking", star=2)
