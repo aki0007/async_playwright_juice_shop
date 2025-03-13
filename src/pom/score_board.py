@@ -10,7 +10,8 @@ class ScoreBoardPage:
     STAR_LEVEL_CLICKED: str = STAR_LEVEL + "[aria-pressed='true']"
     SOLVED_ROW: str = "mat-cell:has-text('{task}')+mat-cell>app-challenge-status-badge"
     SOLVED_ROWS_TABLE: str = "mat-row[role='row']"
-    SOLVED_ROW_XPATH: str = '[id="{task}.solved"]'
+    SOLVED_ROW_XPATH: str = ".solved.ng-star-inserted .name:has-text('{task}')"
+    SOLVED_CHALANGE: str = ".solved.ng-star-inserted .name:has-text('{task}')"
 
     def __init__(self, page: Page) -> None:
         self.page: Page = page
@@ -38,7 +39,7 @@ class ScoreBoardPage:
             # If necessary select star level
             await self.select_star_level(star)
 
-            await AssertionMethod.wait_for_selector_to_become_visible(self.page, self.SOLVED_ROW_XPATH.format(task=task), 1)
+            await AssertionMethod.wait_for_selector_to_become_visible(self.page, self.SOLVED_CHALANGE.format(task=task), 1)
         # Retry:
         except AssertionError:
             if retry < 2:
