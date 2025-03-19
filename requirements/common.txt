@@ -5,66 +5,65 @@
 #
 #    pip-compile-multi
 #
-allure-pytest==2.13.2
+allure-pytest==2.13.5
     # via -r requirements/common.in
-allure-python-commons==2.13.2
+allure-python-commons==2.13.5
     # via allure-pytest
-anyio==3.7.1
+anyio==4.9.0
     # via -r requirements/common.in
-attrs==23.1.0
+attrs==25.3.0
     # via
     #   allure-python-commons
-    #   automat
     #   outcome
     #   trio
     #   twisted
-automat==22.10.0
+automat==24.8.1
     # via twisted
-certifi==2023.7.22
+certifi==2025.1.31
     # via requests
-charset-normalizer==3.2.0
+charset-normalizer==3.4.1
     # via requests
-constantly==15.1.0
+constantly==23.10.4
     # via twisted
-decorator==5.1.1
+decorator==5.2.1
     # via pytest-twisted
-gherkin-official==24.1.0
+gherkin-official==32.0.0
     # via -r requirements/common.in
-greenlet==2.0.2
+greenlet==3.1.1
     # via
     #   playwright
     #   pytest-twisted
 hyperlink==21.0.0
     # via twisted
-idna==3.4
+idna==3.10
     # via
     #   anyio
     #   hyperlink
     #   requests
     #   trio
-incremental==22.10.0
+incremental==24.7.2
     # via twisted
 iniconfig==2.0.0
     # via pytest
-lovely-pytest-docker==0.3.1
+lovely-pytest-docker==1.0.0
     # via -r requirements/common.in
-outcome==1.2.0
+outcome==1.3.0.post0
     # via
     #   pytest-trio
     #   trio
-packaging==23.1
+packaging==24.2
     # via
     #   pytest
     #   pytest-sugar
-playwright==1.37.0
+playwright==1.51.0
     # via -r requirements/common.in
-pluggy==1.2.0
+pluggy==1.5.0
     # via
     #   allure-python-commons
     #   pytest
-pyee==9.0.4
+pyee==12.1.1
     # via playwright
-pytest==7.4.0
+pytest==8.3.5
     # via
     #   allure-pytest
     #   lovely-pytest-docker
@@ -75,11 +74,11 @@ pytest==7.4.0
     #   pytest-tornasync
     #   pytest-trio
     #   pytest-twisted
-pytest-asyncio==0.21.1
+pytest-asyncio==0.25.3
     # via -r requirements/common.in
 pytest-dotenv==0.5.2
     # via -r requirements/common.in
-pytest-sugar==0.9.7
+pytest-sugar==1.0.0
     # via -r requirements/common.in
 pytest-testrail==2.9.0
     # via -r requirements/common.in
@@ -87,45 +86,46 @@ pytest-tornasync==0.6.0.post2
     # via -r requirements/common.in
 pytest-trio==0.8.0
     # via -r requirements/common.in
-pytest-twisted==1.14.0
+pytest-twisted==1.14.3
     # via -r requirements/common.in
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via -r requirements/common.in
-python-dotenv==1.0.0
+python-dotenv==1.0.1
     # via pytest-dotenv
-requests==2.31.0
+requests==2.32.3
     # via
     #   -r requirements/common.in
     #   pytest-testrail
     #   testrail-api
-six==1.16.0
+six==1.17.0
     # via
-    #   automat
     #   lovely-pytest-docker
     #   python-dateutil
-sniffio==1.3.0
+sniffio==1.3.1
     # via
     #   anyio
     #   trio
 sortedcontainers==2.4.0
     # via trio
-termcolor==2.3.0
+termcolor==2.5.0
     # via pytest-sugar
-testrail-api==1.12.0
+testrail-api==1.13.2
     # via -r requirements/common.in
-tornado==6.3.3
+tornado==6.4.2
     # via pytest-tornasync
-trio==0.22.2
+trio==0.29.0
     # via pytest-trio
-twisted==22.10.0
+twisted==24.11.0
     # via -r requirements/common.in
-typing-extensions==4.7.1
+typing-extensions==4.12.2
     # via
+    #   anyio
+    #   gherkin-official
     #   pyee
     #   twisted
-urllib3==2.0.4
+urllib3==2.3.0
     # via requests
-zope-interface==6.0
+zope-interface==7.2
     # via twisted
 
 # The following packages are considered to be unsafe in a requirements file:
