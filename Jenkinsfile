@@ -1,12 +1,13 @@
 pipeline {
-    agent {
-        docker {
-            image 'my-juice-shop-image'
-        }
-    }
+    agent none
 
     stages {
         stage('Checkout') {
+            agent {
+                docker {
+                    image 'my-juice-shop-image'
+                }
+            }
             steps {
                 git 'https://github.com/your-repo.git'
             }
