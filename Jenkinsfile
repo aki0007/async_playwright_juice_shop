@@ -1,10 +1,14 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'my-juice-shop-image'
+        }
+    }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/aki0007/async_playwright_juice_shop'
+                git 'https://github.com/your-repo.git'
             }
         }
         stage('Build') {
@@ -14,22 +18,33 @@ pipeline {
         }
         stage('Test') {
             steps {
-                script {
-                    sh 'pytest tests/'
-                }
+                sh 'pytest tests/ --alluredir=report/allure-results/'
+            }
+        }
+        stage('Generate Allure Report') {
+            steps {
+                sh 'allure generate report/allure-results/ -o report/allure-report/'
             }
         }
         stage('Deploy') {
             steps {
-                script {
-                    // Deploy logic here
-                }
+                // Deploy logic here
             }
         }
         stage('Cleanup') {
             steps {
                 sh 'docker-compose down'
             }
+        }
+    }
+
+    post {
+        always {
+            allure([
+                includeProperties: false,
+                jdk: '',
+                results: [[path: 'report/allure-results/']]
+            ])
         }
     }
 }
