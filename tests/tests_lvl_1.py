@@ -87,8 +87,9 @@ class TestLevel1:
         await login.repetitive_registration()
         await score_board.validate_completed_task("Repetitive Registration")
 
-    # @staticmethod
-    # async def test_mass_dispel(navigation: NavigationPage, score_board: ScoreBoardPage) -> None:
-    #    await navigation.home_page()
-    #    await navigation.close_all_messages()
-    #    await score_board.validate_completed_task("Mass Dispel")
+    @staticmethod
+    @mark.skip(reason="Temporarily disabling this test")
+    async def test_mass_dispel(navigation: NavigationPage, score_board: ScoreBoardPage) -> None:
+        await navigation.home_page()
+        await navigation.close_all_messages()
+        await score_board.validate_completed_task("Mass Dispel")
