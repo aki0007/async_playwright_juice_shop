@@ -14,12 +14,16 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'pytest tests/'
+                script {
+                    sh 'pytest tests/'
+                }
             }
         }
         stage('Deploy') {
             steps {
-                // Deploy logic here
+                script {
+                    // Deploy logic here
+                }
             }
         }
         stage('Cleanup') {
