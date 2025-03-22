@@ -26,11 +26,6 @@ pipeline {
                 sh 'allure generate report/allure-results/ -o report/allure-report/'
             }
         }
-        stage('Deploy') {
-            steps {
-                // Deploy logic here
-            }
-        }
         stage('Cleanup') {
             steps {
                 sh 'docker-compose down'
