@@ -42,6 +42,9 @@ pipeline {
             }
         }
         stage('Deploy') {
+            when {
+                branch 'main'
+            }
             agent {
                 docker {
                     image 'my-juice-shop-image'
