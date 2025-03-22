@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
     stages {
         stage('Checkout') {
             agent {
@@ -12,54 +12,21 @@ pipeline {
             }
         }
         stage('Build') {
-            agent {
-                docker {
-                    image 'my-juice-shop-image'
-                }
-            }
             steps {
                 sh 'docker-compose up -d'
             }
         }
         stage('Test') {
-            agent {
-                docker {
-                    image 'my-juice-shop-image'
-                }
-            }
             steps {
                 sh 'pytest tests/ --alluredir=report/allure-results/'
             }
         }
         stage('Generate Allure Report') {
-            agent {
-                docker {
-                    image 'my-juice-shop-image'
-                }
-            }
             steps {
                 sh 'allure generate report/allure-results/ -o report/allure-report/'
             }
         }
-        stage('Deploy') {
-            when {
-                branch 'main'
-            }
-            agent {
-                docker {
-                    image 'my-juice-shop-image'
-                }
-            }
-            steps {
-                // Deploy logic here
-            }
-        }
         stage('Cleanup') {
-            agent {
-                docker {
-                    image 'my-juice-shop-image'
-                }
-            }
             steps {
                 sh 'docker-compose down'
             }
