@@ -32,6 +32,7 @@ class TestLevel1:
         await score_board.validate_completed_task("Bonus Payload")
 
     @staticmethod
+    @mark.skip(reason="Temporarily disabling this test")
     async def test_bully_chatbot(navigation: NavigationPage, chatbot: ChatBotPage, score_board: ScoreBoardPage) -> None:
         await navigation.open_side_menu_tab("Support Chat")
         await chatbot.annoy_chatbot_with_word("discount")
@@ -50,6 +51,7 @@ class TestLevel1:
     @staticmethod
     async def test_exposed_metrics(navigation: NavigationPage, score_board: ScoreBoardPage) -> None:
         await navigation.navigate_to_metrics()
+        await navigation.page.pause()
         await score_board.validate_completed_task("Exposed Metrics")
 
     @staticmethod

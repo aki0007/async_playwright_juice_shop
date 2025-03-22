@@ -17,7 +17,8 @@ async def register_and_login(
 
     if os.path.exists(SessionConstants.STORAGE_STATE):
         return
-
+    if conf_obj.LOGIN_URL in login.page.url:
+        return
     await login.register(conf_obj.LOGIN_USERNAME, conf_obj.LOGIN_PASSWORD, conf_obj.SECURITY_ANSWER)
     await login.validate_successful_registration()
     await login.login_from_registration(conf_obj.LOGIN_USERNAME, conf_obj.LOGIN_PASSWORD)
