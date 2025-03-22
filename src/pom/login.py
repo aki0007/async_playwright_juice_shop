@@ -21,7 +21,7 @@ class LoginPage:
     REGISTER_EMAIL_INPUT: str = "#emailControl"
     REGISTER_PASSWORD_INPUT: str = "#passwordControl"
     REPEAT_REGISTER_PASSWORD_INPUT: str = "#repeatPasswordControl"
-    SECURITY_QUESTION: str = "div[id^='mat-select-value']"
+    SECURITY_QUESTION: str = "div[class^='mat-mdc-select-arrow-wrapper']"
     SECURITY_QUESTION_ANSWER: str = "#securityAnswerControl"
     SECURITY_QUESTION_SPAN: str = "span:has-text('{question}')"
     SUCCESSFUL_REGISTRATION_MESSAGE: str = "span:has-text('Registration completed successfully. You can now log in.')"
