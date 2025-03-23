@@ -1,45 +1,33 @@
 pipeline {
     agent any
-    stages {
-        stage('Before Checkout') {
-            steps {
-                sh 'docker images -f reference="custom-jenkins-image"'
-            }
-        }
 
-        stage('Checkout') {
-            agent {
-                docker {
-                    image 'custom-jenkins-image'
-                    args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'
-                }
-            }
+    stages {
+        stage('Install Requirements') {
             steps {
-                git 'https://github.com/your-repo.git'
+                sh 'pip install -r requirements/common.txt'
             }
         }
-        stage('Build') {
+        stage('Install Playwright') {
+            steps {
+                sh 'playwright install'
+            }
+        }
+        stage('Run Juice Shop') {
             steps {
                 sh 'docker-compose up -d'
             }
         }
-        stage('Test') {
+        stage('Run Pytest') {
             steps {
-                sh 'pytest -s -v --alluredir=report/allure-results/'
+                sh 'pytest -s -v --alluredir=report/allure-results'
             }
         }
-        stage('Generate Allure Report') {
+        stage('Stop Juice Shop') {
             steps {
-                sh 'allure generate report/allure-results/ -o report/allure-report/'
-            }
-        }
-        stage('Cleanup') {
-            steps {
-                sh 'docker-compose down'
+                sh 'docker-compose stop'
             }
         }
     }
-
     post {
         always {
             allure([
