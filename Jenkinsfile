@@ -1,10 +1,15 @@
 pipeline {
     agent any
     stages {
+        stage('Before Checkout') {
+           steps {
+               sh 'docker images -f reference="my-juice-shop-image"'
+            }
+         }
+
         stage('Checkout') {
             agent {
                 docker {
-                    sh 'docker images -f reference="my-juice-shop-image"'
                     image 'my-juice-shop-image'
                     args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'
                 }
