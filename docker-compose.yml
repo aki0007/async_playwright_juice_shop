@@ -1,38 +1,21 @@
-version: "3.8"
+FROM python:3.11-slim
 
-services:
-  juice_shop:
-    image: bkimminich/juice-shop
-    stop_signal: SIGINT
-    ports:
-      - "3000:3000"
-    networks:
-      - custom_network
+# Set working directory to /app
+WORKDIR /app
 
-  jenkins:
-    image: jenkins/jenkins:lts
-    container_name: local-jenkins
-    restart: unless-stopped
-    user: root
-    hostname: juice_shop.playright.jenkins
-    ports:
-      - "8080:8080"
-      - "50000:50000"
-    volumes:
-      - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /Users/jaksa.milanovic/projects/personal/async_playwright_juice_shop:/app
-      - /usr/local/bin/docker-compose:/usr/local/bin/docker-compose
-    environment:
-      - JENKINS_OPTS="--prefix=/jenkins"
-    networks:
-      custom_network:
-        aliases:
-          - juice_shop.playright.jenkins
+# Copy project files
+COPY . .
 
-volumes:
-  jenkins_home:
+# Install dependencies
+RUN pip install -r requirements/common.in
 
-networks:
-  custom_network:
-    driver: bridge
+# Install Playwright and its browsers
+RUN pip install playwright
+RUN playwright install
+
+# Set environment variables
+ENV ENVIRONMENT=development
+ENV LOCAL=1
+
+# Run command to start tests when container starts
+CMD ["pytest", "tests/"]

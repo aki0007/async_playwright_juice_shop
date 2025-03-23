@@ -2,10 +2,10 @@ pipeline {
     agent any
     stages {
         stage('Before Checkout') {
-           steps {
-               sh 'docker images -f reference="custom-jenkins-image"'
+            steps {
+                sh 'docker images -f reference="custom-jenkins-image"'
             }
-         }
+        }
 
         stage('Checkout') {
             agent {
