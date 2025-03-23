@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Install Requirements') {
             steps {
-                sh 'python -m ensurepip'
-                sh 'pip install -r requirements/common.txt'
+                sh 'python3 -m ensurepip'
+                sh 'pip3 install -r requirements/common.txt'
             }
         }
         stage('Install Playwright') {
@@ -13,19 +13,10 @@ pipeline {
                 sh 'playwright install'
             }
         }
-        stage('Run Juice Shop') {
-            steps {
-                sh 'docker-compose up -d'
-            }
         }
         stage('Run Pytest') {
             steps {
                 sh 'pytest -s -v --alluredir=report/allure-results'
-            }
-        }
-        stage('Stop Juice Shop') {
-            steps {
-                sh 'docker-compose stop'
             }
         }
     }
