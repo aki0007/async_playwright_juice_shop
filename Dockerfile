@@ -1,4 +1,3 @@
-# Use an official Python image as the base
 FROM python:3.11-slim
 
 # Set working directory to /app
@@ -6,12 +5,6 @@ WORKDIR /app
 
 # Copy project files
 COPY . .
-
-# Install Docker
-RUN apt-get update && apt-get install -y docker.io
-
-# Install Docker CLI
-RUN apt-get install -y docker-compose
 
 # Install dependencies
 RUN pip install -r requirements/common.in
