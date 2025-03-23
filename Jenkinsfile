@@ -13,7 +13,6 @@ pipeline {
                 sh 'playwright install'
             }
         }
-        }
         stage('Run Pytest') {
             steps {
                 sh 'pytest -s -v --alluredir=report/allure-results'
