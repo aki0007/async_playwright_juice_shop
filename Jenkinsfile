@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Install Requirements') {
             steps {
-                sh 'pip install -r requirements/common.txt'
+                sh 'python3 --version'
+                sh 'pip3 install -r requirements/common.txt'
             }
         }
         stage('Install Playwright') {
