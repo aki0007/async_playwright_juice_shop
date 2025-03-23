@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'pytest tests/ --alluredir=report/allure-results/'
+                sh 'pytest -s -v --alluredir=report/allure-results/'
             }
         }
         stage('Generate Allure Report') {
