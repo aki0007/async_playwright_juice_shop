@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Install Requirements') {
             steps {
-                sh 'pip3 install -r requirements/common.txt'
+                sh 'pip install -r requirements/common.txt'
             }
         }
         stage('Install Playwright') {
