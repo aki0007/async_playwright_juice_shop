@@ -1,10 +1,12 @@
 pipeline {
-    agent any
-
+    agent {
+        docker {
+            image 'python:3.9-slim'
+        }
+    }
     stages {
         stage('Install Requirements') {
             steps {
-                sh 'python -m ensurepip'
                 sh 'pip install -r requirements/common.txt'
             }
         }
