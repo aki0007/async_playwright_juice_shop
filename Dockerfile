@@ -7,6 +7,12 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
+# Install Docker
+RUN apt-get update && apt-get install -y docker.io
+
+# Install Docker CLI
+RUN apt-get install -y docker-compose
+
 # Install dependencies
 RUN pip install -r requirements/common.in
 

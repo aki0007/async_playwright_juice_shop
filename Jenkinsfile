@@ -3,14 +3,14 @@ pipeline {
     stages {
         stage('Before Checkout') {
            steps {
-               sh 'docker images -f reference="my-juice-shop-image"'
+               sh 'docker images -f reference="custom-jenkins-image"'
             }
          }
 
         stage('Checkout') {
             agent {
                 docker {
-                    image 'my-juice-shop-image'
+                    image 'custom-jenkins-image'
                     args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
