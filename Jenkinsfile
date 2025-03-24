@@ -2,30 +2,30 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Install Requirements') {
             steps {
-                git 'https://github.com/aki0007/async_playwright_juice_shop'
+                sh 'python --version'
+                sh 'pip install -r requirements/common.txt'
             }
         }
-        stage('Build') {
+        stage('Install Playwright') {
             steps {
-                sh 'docker-compose up -d'
+                sh 'playwright install'
             }
         }
-        stage('Test') {
+        stage('Run Pytest') {
             steps {
-                sh 'pytest tests/'
+                sh 'pytest -s -v --alluredir=report/allure-results'
             }
         }
-        stage('Deploy') {
-            steps {
-                // Deploy logic here
-            }
-        }
-        stage('Cleanup') {
-            steps {
-                sh 'docker-compose down'
-            }
+    }
+    post {
+        always {
+            allure([
+                includeProperties: false,
+                jdk: '',
+                results: [[path: 'report/allure-results']]
+            ])
         }
     }
 }

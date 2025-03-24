@@ -43,14 +43,14 @@ Connect to VPN and run tests with:
 
 Run tests and generate allure report
 
-    pytest tests/gui_tests/tests_and_steps/tests_login.py -s -v --alluredir=report/allure-report 
+    pytest tests/gui_tests/tests_and_steps/tests_login.py -s -v --alluredir=report/allure-results 
     allure serve allure/report
 
 ### MakeFile
 Run tests with docker using `MakeFile`.
 
     make compose-test  # Run python tests
-    make compose-test-allure  # Run tests and create allure-repors
+    make compose-test-allure  # Run tests and create allure-results
     make composet-test-allure args='--create_rfp' # Set any argument in args=''
 
 MakeFile run tests in browser in headless mode by setting environment variable `LOCAL=0`
