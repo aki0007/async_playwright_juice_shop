@@ -2,28 +2,29 @@ pipeline {
     agent any
 
     stages {
-            stage('Checkout') {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/aki0007/async_playwright_juice_shop' // Simplest form if no authentication is needed
-                // OR:  For authenticated access:
-                //git credentialsId: 'your-git-credentials-id', url: 'https://github.com/aki0007/async_playwright_juice_shop'
+                git 'https://github.com/aki0007/async_playwright_juice_shop'
+            }
+        }
+        stage('Setup Virtual Environment') {
+            steps {
+                sh 'python3 -m venv venv'  // Create virtual environment
             }
         }
         stage('Install Requirements') {
             steps {
-                sh 'echo "Building..."'
-                sh 'python --version'
-                sh 'pip install -r requirements/common.txt'
+                sh 'venv/bin/pip install -r requirements/common.txt'  // Use venv's pip
             }
         }
         stage('Install Playwright') {
             steps {
-                sh 'playwright install'
+                sh 'venv/bin/playwright install'  // Use venv's playwright
             }
         }
         stage('Run Pytest') {
             steps {
-                sh 'pytest -s -v --alluredir=report/allure-results'
+                sh 'venv/bin/pytest -s -v --alluredir=report/allure-results'
             }
         }
     }
