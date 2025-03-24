@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Install Requirements') {
             steps {
-                sh 'python3 --version'
+                sh 'python --version'
                 sh 'pip install -r requirements/common.txt'
             }
         }
