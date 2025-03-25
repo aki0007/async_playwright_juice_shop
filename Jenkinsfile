@@ -2,11 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/aki0007/async_playwright_juice_shop'
-            }
-        }
         stage('Setup Virtual Environment') {
             steps {
                 sh 'python3 -m venv venv'  // Create virtual environment
@@ -20,6 +15,8 @@ pipeline {
         stage('Install Playwright') {
             steps {
                 sh 'venv/bin/playwright install'  // Use venv's playwright
+                sh 'venv/bin/playwright install-deps'  // Use venv's playwright
+
             }
         }
         stage('Run Pytest') {
