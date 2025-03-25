@@ -5,23 +5,23 @@ pipeline {
         stage('Setup Virtual Environment') {
             steps {
                 sh 'python3 -m venv venv'  // Create virtual environment
+                sh 'source venv/bin/activate'
             }
         }
         stage('Install Requirements') {
             steps {
-                sh 'venv/bin/pip install -r requirements/common.txt'  // Use venv's pip
+                sh 'pip install -r requirements/common.txt'  // Use venv's pip
             }
         }
+
         stage('Install Playwright') {
             steps {
-                sh 'venv/bin/playwright install'  // Use venv's playwright
-                sh 'venv/bin/playwright install-deps'  // Use venv's playwright
-
+                sh 'playwright install'  // Use venv's playwright
             }
         }
         stage('Run Pytest') {
             steps {
-                sh 'venv/bin/pytest -s -v --alluredir=report/allure-results'
+                sh 'pytest -s -v --alluredir=report/allure-results'
             }
         }
     }
