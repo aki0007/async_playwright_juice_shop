@@ -1,27 +1,42 @@
 pipeline {
     agent any
 
+    environment {
+        VENV_PATH = "${WORKSPACE}/venv"
+    }
+
     stages {
         stage('Setup Virtual Environment') {
             steps {
-                sh 'python3 -m venv venv'  // Create virtual environment
-                sh 'source venv/bin/activate'
+                sh """
+                    python3 -m venv ${VENV_PATH}
+                    . ${VENV_PATH}/bin/activate
+                    pip install --upgrade pip
+                """
             }
         }
         stage('Install Requirements') {
             steps {
-                sh 'pip install -r requirements/common.txt'  // Use venv's pip
+                sh """
+                    . ${VENV_PATH}/bin/activate
+                    pip install -r requirements/common.txt
+                """
             }
         }
-
         stage('Install Playwright') {
             steps {
-                sh 'playwright install'  // Use venv's playwright
+                sh """
+                    . ${VENV_PATH}/bin/activate
+                    playwright install
+                """
             }
         }
         stage('Run Pytest') {
             steps {
-                sh 'pytest -s -v --alluredir=report/allure-results'
+                sh """
+                    . ${VENV_PATH}/bin/activate
+                    pytest -s -v --alluredir=report/allure-results
+                """
             }
         }
     }
