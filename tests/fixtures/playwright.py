@@ -8,7 +8,7 @@ from playwright.async_api import Browser, BrowserType, Page, Playwright, async_p
 from playwright.async_api._generated import APIRequestContext, BrowserContext
 from pytest_asyncio import fixture
 
-# from config import LOCAL, conf_obj, get_browser
+import config
 from config import conf_obj, get_browser
 from constants import SessionConstants
 
@@ -28,8 +28,8 @@ async def playwright() -> AsyncGenerator[Playwright, None]:
 async def browser(playwright: Playwright) -> AsyncGenerator[Browser, None]:
     browser_info: dict = get_browser()
     launcher: BrowserType = getattr(playwright, browser_info["browser"])
-    browser: Browser = await launcher.launch(headless=True, channel=browser_info.get("channel"))
-    # browser: Browser = await launcher.launch(headless=not LOCAL, channel=browser_info.get("channel"))
+
+    browser: Browser = await launcher.launch(headless=config.LOCAL != 1, channel=browser_info.get("channel"))
     yield browser
 
 
