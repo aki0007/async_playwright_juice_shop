@@ -69,7 +69,6 @@ class TestLevel2:
 
     @staticmethod
     async def test_meta_geo_stalking(forget_password: ForgetPasswordPage, score_board: ScoreBoardPage) -> None:
-        await score_board.page.pause()
         await score_board.navigate_to_score_board()
         await score_board.click_on_johns_forget_password()
         # TODO  This challenge is solved by meta searching picture,
