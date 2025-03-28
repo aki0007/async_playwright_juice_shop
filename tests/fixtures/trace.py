@@ -5,7 +5,6 @@ import allure
 from _pytest.fixtures import SubRequest
 from allure_commons.types import AttachmentType
 from playwright.async_api import Page
-from pluggy._callers import _Result
 from pytest import hookimpl
 from pytest_asyncio import fixture
 
@@ -16,7 +15,7 @@ from constants import SessionConstants
 @hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item: str) -> Generator[None, None, None]:
     # execute all other hooks to obtain the report object
-    outcome: _Result = yield
+    outcome: Any = yield
     rep: Any = outcome.get_result()
 
     # set a report attribute for each phase of a call, which can

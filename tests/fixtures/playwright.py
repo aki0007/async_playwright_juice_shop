@@ -1,20 +1,24 @@
 import asyncio
 import os
 from asyncio import AbstractEventLoop
-from typing import AsyncGenerator
+from typing import Any, AsyncGenerator, Generator
 
 from _pytest.fixtures import SubRequest
 from playwright.async_api import Browser, BrowserType, Page, Playwright, async_playwright
 from playwright.async_api._generated import APIRequestContext, BrowserContext
 from pytest_asyncio import fixture
 
-from config import LOCAL, conf_obj, get_browser
+import config
+from config import conf_obj, get_browser
 from constants import SessionConstants
 
 
 @fixture(scope="session")
-def event_loop() -> AbstractEventLoop:
-    return asyncio.get_event_loop()
+def event_loop() -> Generator[AbstractEventLoop, None, None]:
+    policy: Any = asyncio.get_event_loop_policy()
+    loop: Any = policy.new_event_loop()
+    yield loop
+    loop.close()
 
 
 @fixture(scope="session")
@@ -27,7 +31,8 @@ async def playwright() -> AsyncGenerator[Playwright, None]:
 async def browser(playwright: Playwright) -> AsyncGenerator[Browser, None]:
     browser_info: dict = get_browser()
     launcher: BrowserType = getattr(playwright, browser_info["browser"])
-    browser: Browser = await launcher.launch(headless=not LOCAL, channel=browser_info.get("channel"))
+
+    browser: Browser = await launcher.launch(headless=config.LOCAL != 1, channel=browser_info.get("channel"))
     yield browser
 
 

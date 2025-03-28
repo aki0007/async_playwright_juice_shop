@@ -19,6 +19,3 @@ class ForgetPasswordPage:
         await self.page.locator(self.SECURITY_ANSWER).fill(security_answer)
         await self.page.locator(self.NEW_PASSWORD).fill(password)
         await self.page.locator(self.NEW_PASSWORD_REPEAT).fill(password)
-        # Confirm
-        async with self.page.expect_navigation():
-            await self.page.locator(self.CHANGE).click()

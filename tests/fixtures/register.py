@@ -1,5 +1,3 @@
-import os
-
 from playwright.async_api import BrowserContext
 from pytest_asyncio import fixture
 
@@ -15,11 +13,12 @@ async def register_and_login(
 ) -> None:
     await login.navigate_to_homepage()
 
-    if os.path.exists(SessionConstants.STORAGE_STATE):
+    if conf_obj.REGISTERED:
+        await login.login_from_registration(conf_obj.LOGIN_USERNAME, conf_obj.LOGIN_PASSWORD)
         return
-    if conf_obj.LOGIN_URL in login.page.url:
-        return
+
     await login.register(conf_obj.LOGIN_USERNAME, conf_obj.LOGIN_PASSWORD, conf_obj.SECURITY_ANSWER)
     await login.validate_successful_registration()
     await login.login_from_registration(conf_obj.LOGIN_USERNAME, conf_obj.LOGIN_PASSWORD)
+    conf_obj.REGISTERED = True
     await context.storage_state(path=SessionConstants.STORAGE_STATE)

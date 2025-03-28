@@ -26,7 +26,7 @@ class NavigationPage:
 
     @allure.step
     async def navigate_to_metrics(self) -> None:
-        await self.page.goto(f"{conf_obj.GLOBAL_URL}/metrics".replace("#/", ""), wait_until="networkidle")
+        await self.page.goto(f"{conf_obj.GLOBAL_URL}metrics".replace("#/", ""), wait_until="networkidle")
 
     @allure.step
     async def navigate_to_outdated_allowlist(self) -> None:

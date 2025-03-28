@@ -17,9 +17,8 @@ class Config:
     GLOBAL_URL: str = os.getenv("GLOBAL_URL", "https://")
     LOGIN_URL: str = os.getenv("LOGIN_URL", "/testing")
     LOCAL: bool = os.getenv("LOCAL", "0") == "1"
-    SCREENSHOT_PATH: str = os.path.abspath(
-        "reports/screenshots/" + datetime.now().strftime("%d-%m-%Y")
-    )
+    SCREENSHOT_PATH: str = os.path.abspath("reports/screenshots/" + datetime.now().strftime("%d-%m-%Y"))
+    REGISTERED: bool = False
 
     # Credentials
     LOGIN_USERNAME: str = os.getenv("LOGIN_USERNAME", "user")

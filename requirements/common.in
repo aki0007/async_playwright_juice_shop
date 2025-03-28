@@ -11,6 +11,7 @@ pytest-tornasync
 pytest-trio
 pytest-twisted
 python-dateutil
+pluggy
 requests
 testrail-api
 twisted
