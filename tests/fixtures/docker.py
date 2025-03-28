@@ -1,4 +1,5 @@
 import os
+from typing import AsyncGenerator
 
 from lovely.pytest.docker.compose import Services
 from pytest import Config
@@ -18,7 +19,9 @@ def docker_compose_files(pytestconfig: Config) -> list:
 
 
 @fixture(scope="session", autouse=config.LOCAL != 1)
-async def docker_juice_shop(docker_services: Services) -> None:
+async def docker_juice_shop(docker_services: Services) -> AsyncGenerator[None, None]:
     docker_service_name: str = "juice_shop"
     docker_services.start(docker_service_name)
     docker_services.wait_for_service(docker_service_name, 3000, timeout=5)
+    yield
+    await docker_services.stop("juice_shop")

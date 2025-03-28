@@ -2,52 +2,66 @@ pipeline {
     agent any
 
     environment {
-        VENV_PATH = "${WORKSPACE}/venv"
+        BROWSER = 'chrome'
+        DEVICES = 'Desktop Chrome'
+        LOCAL = '0'
+        ENVIRONMENT = 'development'
+        GLOBAL_URL = 'https://juice-shop.herokuapp.com/#/'
+        TESTING_URL = 'login'
+        LOGIN_USERNAME = 'jaksa.milanovic007@gmail.com'
+        LOGIN_PASSWORD = 'Test123*'
+        SECURITY_ANSWER = 'aki'
     }
 
     stages {
-        stage('Setup Virtual Environment') {
+        stage('Set up Docker') {
             steps {
-                sh """
-                    cd /var/jenkins_home/workspace/juice-shop-PQ
-                    python3 -m venv ${VENV_PATH}
-                    . ${VENV_PATH}/bin/activate
-                    pip install --upgrade pip
-                """
+                script {
+                    // Ensure Docker is available, this should be automatically handled by Docker Plugin
+                    docker.image('bkimminich/juice-shop').inside {
+                        echo "Docker container is ready"
+                    }
+                }
             }
         }
-        stage('Install Requirements') {
+
+        stage('Set up Python Environment') {
             steps {
-                sh """
-                    . ${VENV_PATH}/bin/activate
-                    pip install -r requirements/common.txt
-                """
+                // Use ShiningPanda plugin to create and activate Python virtual environment
+                sh 'pip install --upgrade pip'
+                sh 'pip install -r requirements/common.txt'
             }
         }
+
         stage('Install Playwright') {
             steps {
-                sh """
-                    . ${VENV_PATH}/bin/activate
-                    playwright install
-                """
+                script {
+                    // Use ShiningPanda plugin to run Playwright installation
+                    sh 'pip install playwright'
+                    sh 'playwright install'
+                }
             }
         }
-        stage('Run Pytest') {
+
+        stage('Run Tests with Docker') {
             steps {
-                sh """
-                    . ${VENV_PATH}/bin/activate
-                    pytest -s -v --alluredir=report/allure-results
-                """
+                script {
+                    // Run tests inside Docker container using pytest-lovely-docker
+                    sh 'pytest -s -v --docker --alluredir=report/allure-results'
+                }
+            }
+        }
+
+        stage('Publish Allure Report') {
+            steps {
+                allure includeProperties: false, jdk: '', results: [[path: 'report/allure-results']]
             }
         }
     }
+
     post {
         always {
-            allure([
-                includeProperties: false,
-                jdk: '',
-                results: [[path: 'report/allure-results']]
-            ])
+            cleanWs() // Clean workspace after execution
         }
     }
 }
