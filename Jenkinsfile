@@ -28,8 +28,8 @@ pipeline {
         stage('Set up Python Environment') {
             steps {
                 // Use ShiningPanda plugin to create and activate Python virtual environment
-                sh 'pip install --upgrade pip'
-                sh 'pip install -r requirements/common.txt'
+                sh 'pip3 install --upgrade pip'
+                sh 'pip3 install -r requirements/common.txt'
             }
         }
 
@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     // Use ShiningPanda plugin to run Playwright installation
-                    sh 'pip install playwright'
+                    sh 'pip3 install playwright'
                     sh 'playwright install'
                 }
             }
