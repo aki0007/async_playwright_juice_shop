@@ -52,7 +52,7 @@ pip-compile-multi==2.8.0
     # via -r requirements/dev.in
 pip-tools==7.4.1
     # via pip-compile-multi
-platformdirs==4.3.6
+platformdirs==4.3.7
     # via
     #   black
     #   pylint
@@ -61,7 +61,7 @@ pre-commit==4.2.0
     # via -r requirements/dev.in
 pre-commit-update==0.6.1
     # via -r requirements/dev.in
-pylint==3.3.5
+pylint==3.3.6
     # via -r requirements/dev.in
 pyproject-hooks==1.2.0
     # via

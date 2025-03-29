@@ -78,6 +78,9 @@ python_files = [
     "tests_*.py"
 ]
 
+asyncio_mode = "strict"
+asyncio_default_fixture_loop_scope = "function"  # or "class", "module", etc.
+
 [tool.mypy]
 disallow_incomplete_defs = true
 disallow_untyped_defs = true
