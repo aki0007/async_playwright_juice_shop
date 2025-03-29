@@ -4,6 +4,7 @@ gherkin-official
 lovely-pytest-docker
 playwright
 pytest-asyncio
+pytest-xdist
 pytest-dotenv
 pytest-sugar
 pytest-testrail
