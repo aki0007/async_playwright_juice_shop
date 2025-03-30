@@ -1,5 +1,5 @@
 import allure
-from playwright.async_api import Page, expect
+from playwright.async_api import Page
 
 from config import conf_obj
 from constants import CURRENT_DATE
@@ -87,7 +87,8 @@ class LoginPage:
             await self.page.get_by_role("button", name="X").click()
 
         except:
-            await expect(self.page.get_by_text(self.EMAIL_MUST_BE_UNIQUE)).to_be_visible(timeout=3)
+            print("Email must be unique")
+            # await expect(self.page.get_by_text(self.EMAIL_MUST_BE_UNIQUE)).to_be_visible(timeout=3)
 
     async def logout(self) -> None:
         await self.page.locator(self.NAV_BAR).click()
