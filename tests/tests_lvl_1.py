@@ -1,5 +1,6 @@
 from pytest import mark
 
+import config
 from src.api.api import AsyncAPI
 from src.api.interceptor import AsyncInterceptor
 from src.pom.chat_bot import ChatBotPage
@@ -32,6 +33,7 @@ class TestLevel1:
         await score_board.validate_completed_task("Bonus Payload")
 
     @staticmethod
+    @mark.skipif(config.LOCAL != 1, reason="Skipping test when run on web")
     async def test_bully_chatbot(navigation: NavigationPage, chatbot: ChatBotPage, score_board: ScoreBoardPage) -> None:
         await navigation.open_side_menu_tab("Support Chat")
         await chatbot.annoy_chatbot_with_word("discount")
