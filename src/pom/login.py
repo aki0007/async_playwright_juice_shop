@@ -35,12 +35,13 @@ class LoginPage:
     async def navigate_to_homepage(self) -> None:
         # Go to https://juice-shop.herokuapp.com/login
         await self.page.goto(conf_obj.GLOBAL_URL + conf_obj.LOGIN_URL)
-        # Close welcome banner
-        if await self.page.locator(self.WELCOME_BANNER).is_visible():
-            await self.page.locator(self.CLOSE_WELCOME_BANNER).click()
         # Close cookie banner
         if await self.page.locator(self.DISMISS_BUTTON).is_visible():
             await self.page.locator(self.DISMISS_BUTTON).click()
+        # Close welcome banner
+        if await self.page.locator(self.WELCOME_BANNER).is_visible():
+            await self.page.locator(self.CLOSE_WELCOME_BANNER).click()
+
 
     @allure.step
     async def login_from_registration(self, username: str, password: str) -> None:
