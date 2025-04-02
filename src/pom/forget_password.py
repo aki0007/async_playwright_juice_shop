@@ -13,7 +13,7 @@ class ForgetPasswordPage:
     def __init__(self, page: Page) -> None:
         self.page: Page = page
 
-    @allure.step("Step Fill in data ")
+    @allure.step("Step Fill in data")
     async def fill_in_data_and_confirm(self, email: str, security_answer: str, password: str) -> None:
         await self.page.locator(self.EMAIL).fill(email)
         # Click on Login
