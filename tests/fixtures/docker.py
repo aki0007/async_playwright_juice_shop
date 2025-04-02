@@ -24,4 +24,3 @@ async def docker_juice_shop(docker_services: Services) -> AsyncGenerator[None, N
     docker_services.start(docker_service_name)
     docker_services.wait_for_service(docker_service_name, 3000, timeout=5)
     yield
-    await docker_services.stop("juice_shop")
