@@ -16,15 +16,16 @@ pipeline {
     parameters {
         choice(
             name: 'TEST_SUITE',
-            choices: ['level_1', 'level_2'],
-            description: 'Select test suite level'
+            choices: ['none', 'level_1', 'level_2'],
+            description: 'Select test suite level (leave as "none" to run all tests)'
         )
         string(
             name: 'THREADS',
             defaultValue: '1',
-            description: 'Number of parallel threads to use'
+            description: 'Number of parallel threads to use (default is 1)'
         )
     }
+
 
     options {
         timestamps() // Add timestamps to the console output
