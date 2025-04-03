@@ -39,7 +39,7 @@ Connect to VPN and run tests with:
 
     pytest -s -v  # Run all behave tests
     pytest -s -v -m login  # Run login.feature tests
-    pytest tests/tests_lvl_1.py::TestLevel1::test_score_board
+    pytest -s -v tests/tests_lvl_1.py::TestLevel1::test_score_board
 
 Run tests and generate allure report
 
