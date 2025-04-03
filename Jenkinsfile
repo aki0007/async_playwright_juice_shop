@@ -36,13 +36,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'develop',
-                    url: 'https://github.com/aki0007/async_playwright_juice_shop'
-            }
-        }
-
         stage('Setup Environment') {
             steps {
                 sh '''
@@ -50,6 +43,7 @@ pipeline {
                     rm -rf *
                     # Ensure Python virtual environment exists
                     python3 -m venv venv
+                    . venv/bin/activate
                     pip install requirements/common.in
                     playwright install
                 '''
@@ -59,7 +53,6 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''
-                    source venv/bin/activate
                     pytest -s -v \
                         --alluredir=report/allure-results \
                         -m ${TEST_SUITE} \
