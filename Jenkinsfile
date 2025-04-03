@@ -40,11 +40,10 @@ pipeline {
             steps {
                 sh '''
                     # Delete workspace before build starts
-                    rm -rf *
                     # Ensure Python virtual environment exists
                     python3 -m venv venv
                     . venv/bin/activate
-                    pip install requirements/common.in
+                    pip install -r requirements/common.in
                     playwright install
                 '''
             }
