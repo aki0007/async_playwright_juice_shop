@@ -41,7 +41,7 @@ pipeline {
                 sh '''
                     # Delete workspace before build starts
                     # Ensure Python virtual environment exists
-                    python3 -m venv venv
+                    cd /var/jenkins_home/workspace/juice_shop_pipeline
                     . venv/bin/activate
                     pip install -r requirements/common.in
                     playwright install
