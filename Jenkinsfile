@@ -13,55 +13,74 @@ pipeline {
         SECURITY_ANSWER = 'aki'
     }
 
+    parameters {
+        choice(
+            name: 'TEST_SUITE',
+            choices: ['none', 'level_1', 'level_2'],
+            description: 'Select test suite level (leave as "none" to run all tests)'
+        )
+        string(
+            name: 'THREADS',
+            defaultValue: '1',
+            description: 'Number of parallel threads to use (default is 1)'
+        )
+    }
+
+
+    options {
+        timestamps() // Add timestamps to the console output
+    }
+
+    triggers {
+        githubPush() // Trigger builds based on GitHub hooks
+    }
+
     stages {
-        stage('Set up Docker') {
+        stage('Checkout') {
             steps {
-                script {
-                    // Ensure Docker is available, this should be automatically handled by Docker Plugin
-                    docker.image('bkimminich/juice-shop').inside {
-                        echo "Docker container is ready"
-                    }
-                }
+                git branch: 'master',
+                    url: 'https://github.com/aki0007/async_playwright_juice_shop'
             }
         }
 
-        stage('Set up Python Environment') {
+        stage('Setup Environment') {
             steps {
-                // Use ShiningPanda plugin to create and activate Python virtual environment
-                sh 'pip3 install --upgrade pip'
-                sh 'pip3 install -r requirements/common.txt'
+                sh '''
+                    # Delete workspace before build starts
+                    rm -rf *
+                    # Ensure Python virtual environment exists
+                    python3 -m venv venv
+                '''
             }
         }
 
-        stage('Install Playwright') {
+        stage('Run Tests') {
             steps {
-                script {
-                    // Use ShiningPanda plugin to run Playwright installation
-                    sh 'pip3 install playwright'
-                    sh 'playwright install'
-                }
-            }
-        }
-
-        stage('Run Tests with Docker') {
-            steps {
-                script {
-                    // Run tests inside Docker container using pytest-lovely-docker
-                    sh 'pytest -s -v --docker --alluredir=report/allure-results'
-                }
-            }
-        }
-
-        stage('Publish Allure Report') {
-            steps {
-                allure includeProperties: false, jdk: '', results: [[path: 'report/allure-results']]
+                sh '''
+                    source venv/bin/activate
+                    pytest -s -v \
+                        --alluredir=report/allure-results \
+                        -m ${TEST_SUITE} \
+                        -n ${THREADS}
+                '''
             }
         }
     }
 
     post {
+        success {
+            echo "Build succeeded. Generating Allure report..."
+            allure([
+                results: [[path: 'report/allure-results']]
+            ])
+        }
+
+        failure {
+            echo "Build failed. Check logs for details."
+        }
+
         always {
-            cleanWs() // Clean workspace after execution
+            echo "Pipeline completed."
         }
     }
 }
