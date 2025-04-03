@@ -38,7 +38,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master',
+                git branch: 'develop',
                     url: 'https://github.com/aki0007/async_playwright_juice_shop'
             }
         }
