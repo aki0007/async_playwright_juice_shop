@@ -50,6 +50,8 @@ pipeline {
                     rm -rf *
                     # Ensure Python virtual environment exists
                     python3 -m venv venv
+                    pip install requirements/common.in
+                    playwright install
                 '''
             }
         }
