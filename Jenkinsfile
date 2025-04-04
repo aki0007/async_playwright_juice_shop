@@ -39,23 +39,14 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 sh '''
-                    # Delete workspace before build starts
-                    # Ensure Python virtual environment exists
-                    cd /var/jenkins_home/workspace/juice_shop_pipeline
+                    # Activate virtual environment and install dependencies
+                    python3 -m venv venv
                     . venv/bin/activate
                     pip install -r requirements/common.in
                     playwright install
-                '''
-            }
-        }
 
-        stage('Run Tests') {
-            steps {
-                sh '''
-                    pytest -s -v \
-                        --alluredir=report/allure-results \
-                        -m ${TEST_SUITE} \
-                        -n ${THREADS}
+                    # Run pytest within the same shell session
+                    pytest -s -v --alluredir=report/allure-results -m ${TEST_SUITE} -n ${THREADS}
                 '''
             }
         }
