@@ -1,5 +1,5 @@
 import os
-from typing import AsyncGenerator
+from typing import Any, AsyncGenerator
 
 from lovely.pytest.docker.compose import Services
 from pytest import Config
@@ -14,7 +14,7 @@ async def docker_services_project_name(pytestconfig: Config) -> str:
 
 
 @fixture(scope="session")
-def docker_compose_files(pytestconfig: Config) -> list:
+def docker_compose_files(pytestconfig: Config) -> Any:
     return [os.path.join(str(pytestconfig.rootpath), "docker-compose.yml")]
 
 
