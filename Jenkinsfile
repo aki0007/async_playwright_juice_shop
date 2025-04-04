@@ -62,7 +62,10 @@ pipeline {
                         command += " -n ${params.THREADS}"
                     }
 
-                    sh "${command}"
+                    sh """
+                    . venv/bin/activate
+                    ${command}
+                    """
                 }
             }
         }
