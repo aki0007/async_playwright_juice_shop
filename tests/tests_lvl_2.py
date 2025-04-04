@@ -4,7 +4,7 @@ from constants import SessionConstants
 from src.api.api import AsyncAPI
 from src.api.interceptor import AsyncInterceptor
 from src.pom.administration import AdministrationPage
-from src.pom.complain import ComplainPage
+from src.pom.complaint import ComplainPage
 from src.pom.forget_password import ForgetPasswordPage
 from src.pom.login import LoginPage
 from src.pom.navigation import NavigationPage

@@ -7,8 +7,8 @@ from pytest_asyncio import fixture
 from src.api.api import AsyncAPI
 from src.api.interceptor import AsyncInterceptor
 from src.pom.administration import AdministrationPage
-from src.pom.chat_bot import ChatBotPage
-from src.pom.complain import ComplainPage
+from src.pom.support_chat import ChatBotPage
+from src.pom.complaint import ComplainPage
 from src.pom.contact import ContactPage
 from src.pom.forget_password import ForgetPasswordPage
 from src.pom.login import LoginPage

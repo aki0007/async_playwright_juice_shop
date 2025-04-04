@@ -5,6 +5,9 @@ from config import conf_obj
 
 
 class ComplainPage:
+    COMPLAINT_HEADER: str = "//h1[text()='Complaint']"
+    COMPLAINT_FORM: str = "//div[@id='complaint-form']"
+    COMPLAINER_EMAIL: str = "//span[contains(text(), '{complainer_email}}')]"
     CHOOSE_FILE_INPUT: str = "#file"
     MESSAGE_TEXTAREA: str = "#complaintMessage"
     SUBMIT_BUTTON: str = "#submitButton"
@@ -21,3 +24,8 @@ class ComplainPage:
         await self.page.locator(self.MESSAGE_TEXTAREA).fill(message)
         await self.page.locator(self.CHOOSE_FILE_INPUT).set_input_files(file)
         await self.page.locator(self.SUBMIT_BUTTON).click()
+
+    @allure.step
+    async def validate_email_of_complainer(self, complainer_email: str) -> None:
+        await self.page.locator(self.COMPLAINER_EMAIL.format(complainer_email)).is_visible()
+
