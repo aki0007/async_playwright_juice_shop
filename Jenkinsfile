@@ -75,9 +75,6 @@ pipeline {
     post {
         success {
             echo "Build succeeded. Generating Allure report..."
-            allure([
-                results: [[path: 'report/allure-results']]
-            ])
         }
 
         failure {
@@ -86,6 +83,9 @@ pipeline {
 
         always {
             echo "Pipeline completed."
+            allure([
+            results: [[path: 'report/allure-results']]
+            ])
         }
     }
 }

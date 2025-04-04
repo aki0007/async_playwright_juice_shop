@@ -27,5 +27,4 @@ class ComplainPage:
 
     @allure.step
     async def validate_email_of_complainer(self, complainer_email: str) -> None:
-        await self.page.locator(self.COMPLAINER_EMAIL.format(complainer_email)).is_visible()
-
+        await self.page.locator(self.COMPLAINER_EMAIL.format(complainer_email=complainer_email)).is_visible()

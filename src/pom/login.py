@@ -21,7 +21,7 @@ class LoginPage:
     REGISTER_EMAIL_INPUT: str = "#emailControl"
     REGISTER_PASSWORD_INPUT: str = "#passwordControl"
     REPEAT_REGISTER_PASSWORD_INPUT: str = "#repeatPasswordControl"
-    SECURITY_QUESTION: str = "div[class^='mat-mdc-select-arrow-wrapper']"
+    SECURITY_QUESTION: str = "//mat-label[contains(text(), 'Security Question')]"
     SECURITY_QUESTION_ANSWER: str = "#securityAnswerControl"
     SECURITY_QUESTION_SPAN: str = "span:has-text('{question}')"
     SUCCESSFUL_REGISTRATION_MESSAGE: str = "span:has-text('Registration completed successfully. You can now log in.')"
@@ -41,7 +41,6 @@ class LoginPage:
         # Close welcome banner
         if await self.page.locator(self.WELCOME_BANNER).is_visible():
             await self.page.locator(self.CLOSE_WELCOME_BANNER).click()
-
 
     @allure.step
     async def login_from_registration(self, username: str, password: str) -> None:
@@ -75,6 +74,7 @@ class LoginPage:
         await self.page.locator(self.REGISTER_PASSWORD_INPUT).fill(password)
         await self.page.locator(self.REPEAT_REGISTER_PASSWORD_INPUT).fill(password)
         # Choose security question
+        await self.page.pause()
         await self.page.locator(self.SECURITY_QUESTION).click()
         await self.page.locator(self.SECURITY_QUESTION_SPAN.format(question="Your eldest siblings middle name?")).click()
         await self.page.locator(self.SECURITY_QUESTION_ANSWER).fill(security_answer)

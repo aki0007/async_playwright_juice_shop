@@ -2,6 +2,7 @@ import asyncio
 import os
 from typing import Any, AsyncGenerator
 
+from pytest import mark
 from _pytest.fixtures import SubRequest
 from playwright.async_api import Browser, BrowserType, Page, Playwright, async_playwright
 from playwright.async_api._generated import APIRequestContext, BrowserContext
@@ -13,6 +14,7 @@ from constants import SessionConstants
 
 
 @fixture(scope="session")
+@mark.asyncio(scope="session")
 def event_loop() -> Any:
     policy: Any = asyncio.get_event_loop_policy()
     loop: Any = policy.new_event_loop()
