@@ -44,12 +44,29 @@ pipeline {
                     . venv/bin/activate
                     pip install -r requirements/common.in
                     playwright install
-
-                    # Run pytest within the same shell session
-                    pytest -s -v --alluredir=report/allure-results -m ${TEST_SUITE} -n ${THREADS}
                 '''
             }
         }
+
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    def command = "pytest -s -v --alluredir=report/allure-results"
+
+                    if (params.TEST_SUITE != 'none') {
+                        command += " -m ${params.TEST_SUITE}"
+                    }
+
+                    if (params.THREADS?.trim()) {
+                        command += " -n ${params.THREADS}"
+                    }
+
+                    sh "${command}"
+                }
+            }
+        }
+
     }
 
     post {
